@@ -1,0 +1,138 @@
+---
+// src/components/seo/MetaTags.astro
+import type { MetaData, Language } from '@/types';
+import { generateMetaTags, generateOgTags, generateTwitterTags } from '@/lib/seo';
+import { siteConfig } from '@/data/site';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  robots?: string;
+  lang?: Language;
+}
+
+const {
+  title,
+  description,
+  keywords,
+  canonical,
+  ogImage,
+  ogType = 'website',
+  robots = 'index, follow',
+  lang = 'en',
+} = Astro.props;
+
+// 生成完整的Meta标签
+const metadata = generateMetaTags(
+  {
+    title,
+    description,
+    keywords,
+    canonical,
+    ogImage,
+    ogType,
+    robots,
+  },
+  lang
+);
+
+// 生成Open Graph标签
+const ogTags = generateOgTags(metadata, lang);
+
+// 生成Twitter Card标签
+const twitterTags = generateTwitterTags(metadata);
+
+// 获取当前URL
+const currentUrl = canonical || Astro.url.href;
+---
+
+<!-- 基础Meta标签 -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<!-- SEO Meta标签 -->
+<title>{metadata.title}</title>
+<meta name="description" content={metadata.description} />
+{metadata.keywords && <meta name="keywords" content={metadata.keywords.join(', ')} />}
+{metadata.author && <meta name="author" content={metadata.author} />}
+<meta name="robots" content={metadata.robots} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={currentUrl} />
+
+<!-- Open Graph标签 -->
+<meta property="og:site_name" content={ogTags['og:site_name']} />
+<meta property="og:type" content={ogTags['og:type']} />
+<meta property="og:title" content={ogTags['og:title']} />
+<meta property="og:description" content={ogTags['og:description']} />
+<meta property="og:image" content={ogTags['og:image']} />
+<meta property="og:url" content={ogTags['og:url']} />
+<meta property="og:locale" content={ogTags['og:locale']} />
+
+<!-- Twitter Card标签 -->
+<meta name="twitter:card" content={twitterTags['twitter:card']} />
+<meta name="twitter:title" content={twitterTags['twitter:title']} />
+<meta name="twitter:description" content={twitterTags['twitter:description']} />
+<meta name="twitter:image" content={twitterTags['twitter:image']} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+<!-- 主题色 -->
+<meta name="theme-color" content="#1E40AF" />
+
+<!-- 格式检测 -->
+<meta name="format-detection" content="telephone=no" />
+
+<!-- Google Analytics -->
+{
+  siteConfig.analytics.gaTrackingId && (
+    <>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.analytics.gaTrackingId}`}></script>
+      <script is:inline define:vars={{ gaId: siteConfig.analytics.gaTrackingId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', gaId);
+      </script>
+    </>
+  )
+}
+
+<!-- 百度统计 (仅中文站) -->
+{
+  lang === 'cn' && siteConfig.analytics.baiduAnalyticsId && (
+    <script is:inline define:vars={{ baiduId: siteConfig.analytics.baiduAnalyticsId }}>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?" + baiduId;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  )
+}
+
+<!-- Google Tag Manager (可选) -->
+{
+  siteConfig.analytics.gtmId && (
+    <script is:inline define:vars={{ gtmId: siteConfig.analytics.gtmId }}>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',gtmId);
+    </script>
+  )
+}

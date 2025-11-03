@@ -1,0 +1,155 @@
+---
+/**
+ * 通用复选框组件
+ * 支持单个复选框和复选框组
+ */
+
+interface Props {
+  name: string;
+  id?: string;
+  value?: string;
+  checked?: boolean;
+  label?: string;
+  description?: string;
+  error?: string;
+  required?: boolean;
+  disabled?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const {
+  name,
+  id = name,
+  value,
+  checked = false,
+  label,
+  description,
+  error,
+  required = false,
+  disabled = false,
+  size = 'md',
+  class: className = '',
+} = Astro.props;
+
+// 尺寸样式
+const sizeStyles = {
+  sm: {
+    checkbox: 'w-4 h-4',
+    label: 'text-sm',
+    description: 'text-xs',
+  },
+  md: {
+    checkbox: 'w-5 h-5',
+    label: 'text-base',
+    description: 'text-sm',
+  },
+  lg: {
+    checkbox: 'w-6 h-6',
+    label: 'text-lg',
+    description: 'text-base',
+  },
+};
+
+// 复选框样式
+const checkboxClasses = [
+  sizeStyles[size].checkbox,
+  'rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition-colors duration-200',
+  disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+  error ? 'border-red-500' : '',
+].filter(Boolean).join(' ');
+
+// 标签样式
+const labelClasses = [
+  sizeStyles[size].label,
+  'font-medium text-gray-900 select-none',
+  disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+].filter(Boolean).join(' ');
+
+// 描述样式
+const descriptionClasses = [
+  sizeStyles[size].description,
+  'text-gray-500 mt-0.5',
+].filter(Boolean).join(' ');
+---
+
+<div class={`flex items-start ${className}`}>
+  <div class="flex items-center h-6">
+    <input
+      type="checkbox"
+      name={name}
+      id={id}
+      value={value}
+      checked={checked}
+      required={required}
+      disabled={disabled}
+      class={checkboxClasses}
+      aria-invalid={error ? 'true' : 'false'}
+      aria-describedby={description ? `${id}-description` : error ? `${id}-error` : undefined}
+    />
+  </div>
+  
+  {(label || description) && (
+    <div class="ml-3 flex-1">
+      {label && (
+        <label for={id} class={labelClasses}>
+          {label}
+          {required && <span class="text-red-500 ml-0.5">*</span>}
+        </label>
+      )}
+      
+      {description && (
+        <p id={`${id}-description`} class={descriptionClasses}>
+          {description}
+        </p>
+      )}
+    </div>
+  )}
+</div>
+
+{error && (
+  <p id={`${id}-error`} class="mt-1.5 ml-8 text-sm text-red-600 flex items-center gap-1">
+    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+    </svg>
+    {error}
+  </p>
+)}
+
+<style>
+  /* 自定义复选框样式 */
+  input[type='checkbox'] {
+    appearance: none;
+    background-color: white;
+    border-width: 2px;
+    display: inline-block;
+    position: relative;
+  }
+  
+  input[type='checkbox']:checked {
+    background-color: currentColor;
+    border-color: currentColor;
+  }
+  
+  input[type='checkbox']:checked::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  
+  input[type='checkbox']:focus {
+    outline: none;
+  }
+  
+  input[type='checkbox']:disabled {
+    background-color: #f3f4f6;
+  }
+</style>

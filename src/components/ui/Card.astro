@@ -1,0 +1,80 @@
+---
+/**
+ * 通用卡片组件
+ * 支持多种样式、阴影、边框和交互效果
+ */
+
+interface Props {
+  variant?: 'default' | 'bordered' | 'elevated' | 'flat';
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  hover?: boolean; // 是否启用悬停效果
+  clickable?: boolean; // 是否可点击
+  href?: string; // 如果提供则渲染为链接
+  class?: string;
+}
+
+const {
+  variant = 'default',
+  padding = 'md',
+  hover = false,
+  clickable = false,
+  href,
+  class: className = '',
+} = Astro.props;
+
+// 基础样式
+const baseStyles = 'rounded-xl bg-white transition-all duration-300';
+
+// 变体样式
+const variantStyles = {
+  default: 'border border-gray-200 shadow-sm',
+  bordered: 'border-2 border-gray-300',
+  elevated: 'shadow-lg',
+  flat: 'border border-gray-100',
+};
+
+// 内边距样式
+const paddingStyles = {
+  none: 'p-0',
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
+  xl: 'p-10',
+};
+
+// 悬停效果
+const hoverStyles = hover || clickable 
+  ? 'hover:shadow-xl hover:-translate-y-1 cursor-pointer' 
+  : '';
+
+// 组合所有样式
+const cardClasses = [
+  baseStyles,
+  variantStyles[variant],
+  paddingStyles[padding],
+  hoverStyles,
+  className,
+].filter(Boolean).join(' ');
+
+// 渲染卡片或链接
+const Tag = href ? 'a' : 'div';
+const linkProps = href ? { href } : {};
+---
+
+<Tag class={cardClasses} {...linkProps}>
+  <slot />
+</Tag>
+
+<style>
+  /* 确保卡片内的内容正确定位 */
+  a, div {
+    display: block;
+    position: relative;
+  }
+  
+  /* 为可点击卡片添加focus状态 */
+  a:focus, div[tabindex]:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+</style>

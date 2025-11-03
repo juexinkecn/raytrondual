@@ -1,0 +1,759 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+// 这是一个动态路由模板，实际使用时需要根据[slug]参数获取产品数据
+// 这里提供一个示例产品数据
+
+const productData = {
+  name: '光伏汇流带 (PV Ribbon)',
+  category: '光伏行业',
+  description: '热镀锡铜扁线导体，用于收集光伏电池产生的电流，连接太阳能电池单元并将电流传输至配电系统。锐创是中国最大的光伏汇流带铜扁线制造商。',
+  image: '/images/products/pv-ribbon-main.jpg',
+  images: [
+    '/images/products/pv-ribbon-1.jpg',
+    '/images/products/pv-ribbon-2.jpg',
+    '/images/products/pv-ribbon-3.jpg',
+  ],
+  specifications: {
+    '材质': '无氧铜 (≥99.9%)',
+    '导电率': '≥100% IACS',
+    '屈服强度': '<110 MPa (超低强度)',
+    '宽厚比': '最高可达140:1',
+    '表面处理': '热镀锡',
+    '延展性': '高延展性 (≥30%)',
+    '弧度': '最小化，<0.5mm/m',
+    'MOQ': '200公斤起',
+    '交货期': '标准规格2-7天',
+  },
+  features: [
+    {
+      icon: '⚡',
+      title: '高延展性=高可靠性',
+      description: '超低屈服强度确保高延展性，提供更高的模组可靠性，减少微裂纹风险',
+    },
+    {
+      icon: '📏',
+      title: '最小化弧度',
+      description: '优异的平直度控制，弧度<0.5mm/m，避免缠结和漏焊问题',
+    },
+    {
+      icon: '🎯',
+      title: '保持屈服强度',
+      description: '严格的工艺控制确保屈服强度稳定，保证产品一致性',
+    },
+    {
+      icon: '🔬',
+      title: '高精度尺寸控制',
+      description: '公差±0.01mm，确保自动化生产线的顺畅运行',
+    },
+  ],
+  applications: [
+    'TOPCon电池片',
+    'HJT异质结电池',
+    'PERC电池',
+    'N型双面电池',
+    '组件互联',
+  ],
+  advantages: [
+    '中国最大的光伏汇流带生产商',
+    '年产能19,000吨，供货稳定',
+    '国家标准制定单位',
+    'ISO9001认证工厂',
+    '13年扁线生产经验',
+    '专利圆线轧扁技术',
+    '自然圆边无毛刺',
+    '快速交付，2-7天',
+  ],
+  process: [
+    {
+      step: '01',
+      title: '原材料选择',
+      description: '选用≥99.9%无氧铜原材料，确保基础质量',
+    },
+    {
+      step: '02',
+      title: '圆线轧扁',
+      description: '采用专利4连轧技术，精确控制宽厚比',
+    },
+    {
+      step: '03',
+      title: '退火处理',
+      description: '精确控制退火工艺，获得理想的屈服强度',
+    },
+    {
+      step: '04',
+      title: '热镀锡',
+      description: '均匀镀锡层，确保良好的可焊性和耐腐蚀性',
+    },
+    {
+      step: '05',
+      title: '质量检测',
+      description: '100%在线检测，确保尺寸精度和性能指标',
+    },
+    {
+      step: '06',
+      title: '包装出货',
+      description: '专业包装，保护产品在运输过程中不受损',
+    },
+  ],
+};
+---
+
+<Layout title={`${productData.name} - 锐创新能源`}>
+  <div class="product-detail-page">
+    <!-- Product Hero -->
+    <section class="product-hero">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="/">首页</a>
+          <span>/</span>
+          <a href="/products">产品中心</a>
+          <span>/</span>
+          <span>{productData.category}</span>
+          <span>/</span>
+          <span>{productData.name}</span>
+        </div>
+
+        <div class="product-main">
+          <div class="product-images">
+            <div class="main-image">
+              <img src={productData.image} alt={productData.name} />
+            </div>
+            <div class="thumbnail-images">
+              {productData.images.map(img => (
+                <div class="thumbnail">
+                  <img src={img} alt={productData.name} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="product-info">
+            <div class="product-category">{productData.category}</div>
+            <h1 class="product-title">{productData.name}</h1>
+            <p class="product-intro">{productData.description}</p>
+
+            <div class="product-actions">
+              <a href="/contact" class="btn btn-primary">立即咨询</a>
+              <a href="#specifications" class="btn btn-secondary">查看规格</a>
+            </div>
+
+            <div class="product-highlights">
+              <div class="highlight-item">
+                <div class="highlight-icon">✅</div>
+                <div class="highlight-text">
+                  <strong>起订量</strong>
+                  <span>200公斤起</span>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <div class="highlight-icon">🚚</div>
+                <div class="highlight-text">
+                  <strong>交货期</strong>
+                  <span>2-7天快速交付</span>
+                </div>
+              </div>
+              <div class="highlight-item">
+                <div class="highlight-icon">🏆</div>
+                <div class="highlight-text">
+                  <strong>质量保证</strong>
+                  <span>ISO9001认证</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Features -->
+    <section class="product-features">
+      <div class="container">
+        <h2 class="section-title">产品特点</h2>
+        <div class="features-grid">
+          {productData.features.map(feature => (
+            <div class="feature-card">
+              <div class="feature-icon">{feature.icon}</div>
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Specifications -->
+    <section class="specifications-section" id="specifications">
+      <div class="container">
+        <h2 class="section-title">技术规格</h2>
+        <div class="spec-table">
+          {Object.entries(productData.specifications).map(([key, value]) => (
+            <div class="spec-row">
+              <div class="spec-label">{key}</div>
+              <div class="spec-value">{value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Production Process -->
+    <section class="process-section">
+      <div class="container">
+        <h2 class="section-title">生产工艺</h2>
+        <div class="process-timeline">
+          {productData.process.map(item => (
+            <div class="process-item">
+              <div class="process-step">{item.step}</div>
+              <div class="process-content">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Applications -->
+    <section class="applications-section">
+      <div class="container">
+        <h2 class="section-title">应用领域</h2>
+        <div class="applications-grid">
+          {productData.applications.map(app => (
+            <div class="application-card">
+              <div class="app-icon">☀️</div>
+              <span>{app}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Advantages -->
+    <section class="advantages-section">
+      <div class="container">
+        <h2 class="section-title">我们的优势</h2>
+        <div class="advantages-grid">
+          {productData.advantages.map(advantage => (
+            <div class="advantage-item">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M7 10l2 2 4-4" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="10" cy="10" r="9" stroke="#667eea" stroke-width="2"/>
+              </svg>
+              <span>{advantage}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>需要定制化解决方案？</h2>
+          <p>联系我们的技术团队，为您的应用提供专业的扁线解决方案</p>
+          <div class="cta-buttons">
+            <a href="/contact" class="btn btn-primary">立即咨询</a>
+            <a href="/products" class="btn btn-secondary">查看更多产品</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .product-detail-page {
+      background: #f8f9fa;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .breadcrumb a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .breadcrumb span:last-child {
+      color: #4a5568;
+    }
+
+    /* Product Hero */
+    .product-hero {
+      background: white;
+      padding: 40px 0 80px;
+    }
+
+    .product-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .product-images {
+      position: sticky;
+      top: 100px;
+    }
+
+    .main-image {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumbnail-images {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .thumbnail {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    .thumbnail:hover {
+      border-color: #667eea;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-category {
+      color: #667eea;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .product-title {
+      font-size: 2.5rem;
+      color: #2d3748;
+      margin-bottom: 20px;
+    }
+
+    .product-intro {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #4a5568;
+      margin-bottom: 30px;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      padding: 15px 35px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+
+    .btn-secondary:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .product-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 25px;
+      background: #f8f9fa;
+      border-radius: 12px;
+    }
+
+    .highlight-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .highlight-icon {
+      font-size: 1.5rem;
+    }
+
+    .highlight-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .highlight-text strong {
+      color: #2d3748;
+      font-size: 0.9rem;
+    }
+
+    .highlight-text span {
+      color: #718096;
+      font-size: 0.95rem;
+    }
+
+    /* Features */
+    .product-features {
+      padding: 80px 0;
+      background: white;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: #2d3748;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: #f8f9fa;
+      padding: 40px 30px;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #2d3748;
+    }
+
+    .feature-card p {
+      color: #4a5568;
+      line-height: 1.6;
+    }
+
+    /* Specifications */
+    .specifications-section {
+      padding: 80px 0;
+      background: #f8f9fa;
+    }
+
+    .spec-table {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .spec-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .spec-row:last-child {
+      border-bottom: none;
+    }
+
+    .spec-label,
+    .spec-value {
+      padding: 20px 30px;
+    }
+
+    .spec-label {
+      font-weight: 600;
+      color: #2d3748;
+      background: #f8f9fa;
+    }
+
+    .spec-value {
+      color: #4a5568;
+    }
+
+    /* Process */
+    .process-section {
+      padding: 80px 0;
+      background: white;
+    }
+
+    .process-timeline {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .process-item {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .process-step {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .process-content {
+      flex: 1;
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 12px;
+    }
+
+    .process-content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #2d3748;
+    }
+
+    .process-content p {
+      color: #4a5568;
+      line-height: 1.6;
+    }
+
+    /* Applications */
+    .applications-section {
+      padding: 80px 0;
+      background: #f8f9fa;
+    }
+
+    .applications-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .application-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+
+    .application-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .app-icon {
+      font-size: 2.5rem;
+    }
+
+    .application-card span {
+      color: #2d3748;
+      font-weight: 600;
+    }
+
+    /* Advantages */
+    .advantages-section {
+      padding: 80px 0;
+      background: white;
+    }
+
+    .advantages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .advantage-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      transition: transform 0.3s;
+    }
+
+    .advantage-item:hover {
+      transform: translateX(5px);
+    }
+
+    .advantage-item span {
+      color: #2d3748;
+      font-weight: 500;
+    }
+
+    /* CTA */
+    .cta-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .cta-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .cta-section .btn-primary {
+      background: white;
+      color: #667eea;
+    }
+
+    .cta-section .btn-secondary {
+      border-color: white;
+      color: white;
+    }
+
+    .cta-section .btn-secondary:hover {
+      background: white;
+      color: #667eea;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .product-main {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .product-images {
+        position: static;
+      }
+
+      .product-title {
+        font-size: 2rem;
+      }
+
+      .product-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .spec-row {
+        grid-template-columns: 1fr;
+      }
+
+      .spec-label {
+        border-bottom: none;
+      }
+
+      .process-item {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cta-section .btn {
+        max-width: 300px;
+      }
+    }
+  </style>
+
+  <script>
+    // 缩略图切换功能
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const mainImage = document.querySelector('.main-image img');
+
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const img = thumb.querySelector('img');
+        if (mainImage && img) {
+          mainImage.src = img.src;
+        }
+      });
+    });
+  </script>
+</Layout>

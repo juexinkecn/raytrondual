@@ -1,0 +1,562 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="联系我们 - 锐创新能源">
+  <div class="contact-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <h1 class="hero-title">联系我们</h1>
+        <p class="hero-subtitle">任何关于扁线的技术问题，欢迎随时与我们联系</p>
+      </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="contact-content">
+      <div class="container">
+        <div class="contact-grid">
+          <!-- Contact Form -->
+          <div class="contact-form-wrapper">
+            <h2>发送咨询</h2>
+            <p class="form-intro">请填写以下表单，我们会尽快回复您</p>
+            <form id="contactForm" class="contact-form">
+              <div class="form-group">
+                <label for="name">您的姓名 *</label>
+                <input type="text" id="name" name="name" required placeholder="请输入您的姓名" />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="company">公司名称</label>
+                  <input type="text" id="company" name="company" placeholder="请输入公司名称" />
+                </div>
+                <div class="form-group">
+                  <label for="position">职位</label>
+                  <input type="text" id="position" name="position" placeholder="请输入您的职位" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">电子邮箱 *</label>
+                  <input type="email" id="email" name="email" required placeholder="example@company.com" />
+                </div>
+                <div class="form-group">
+                  <label for="phone">联系电话</label>
+                  <input type="tel" id="phone" name="phone" placeholder="+86 138 0000 0000" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="product">感兴趣的产品</label>
+                <select id="product" name="product">
+                  <option value="">请选择产品类别</option>
+                  <option value="pv-ribbon">光伏汇流带 (PV Ribbon)</option>
+                  <option value="copper-wire">铜扁线/铜带</option>
+                  <option value="aluminum-wire">铝扁线/铝带</option>
+                  <option value="cca-wire">铜包铝扁线</option>
+                  <option value="battery">电池连接片</option>
+                  <option value="enameled">漆包扁线</option>
+                  <option value="cable">电缆屏蔽材料</option>
+                  <option value="other">其他产品</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="message">留言内容 *</label>
+                <textarea id="message" name="message" required rows="6" placeholder="请详细描述您的需求或问题..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="agreement" required />
+                  <span>我已阅读并同意《隐私政策》</span>
+                </label>
+              </div>
+
+              <button type="submit" class="btn-submit">提交咨询</button>
+            </form>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="contact-info">
+            <div class="info-card">
+              <h3>总部地址</h3>
+              <div class="info-item">
+                <div class="info-icon">📍</div>
+                <div class="info-text">
+                  <strong>锐创新能源（浙江）有限公司</strong><br />
+                  中国浙江省诸暨市枫桥镇海浦大道6-1号<br />
+                  邮编：311811
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <h3>联系方式</h3>
+              <div class="info-item">
+                <div class="info-icon">📧</div>
+                <div class="info-text">
+                  <strong>电子邮箱</strong><br />
+                  <a href="mailto:info@raytron.co">info@raytron.co</a><br />
+                  <a href="mailto:sales@ray-tron.com">sales@ray-tron.com</a>
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">📞</div>
+                <div class="info-text">
+                  <strong>联系电话</strong><br />
+                  +86 575 8757 XXXX（总机）
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">⏰</div>
+                <div class="info-text">
+                  <strong>工作时间</strong><br />
+                  周一至周五: 9:00 AM - 7:00 PM (北京时间)
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <h3>海外办事处</h3>
+              <div class="info-item">
+                <div class="info-icon">🌍</div>
+                <div class="info-text">
+                  <strong>土耳其销售办事处</strong><br />
+                  Yaylacik Mah. Ulubatli Hasan Cad.<br />
+                  11.Sk No.:26/5 Merkez/KIRIKKALE<br />
+                  电话: +90 544 223 61 75<br />
+                  邮箱: ercan@raytron.group
+                </div>
+              </div>
+            </div>
+
+            <div class="info-card quick-links">
+              <h3>快速链接</h3>
+              <div class="quick-link-list">
+                <a href="/products">产品中心</a>
+                <a href="/about">关于我们</a>
+                <a href="/faq">常见问题</a>
+                <a href="https://www.raytron.co" target="_blank">英文网站</a>
+              </div>
+            </div>
+
+            <div class="info-card social-media">
+              <h3>关注我们</h3>
+              <div class="social-icons">
+                <a href="#" class="social-icon" aria-label="Facebook">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="#" class="social-icon" aria-label="LinkedIn">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a href="#" class="social-icon" aria-label="YouTube">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                <a href="#" class="social-icon" aria-label="WhatsApp">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+      <div class="container">
+        <h2 class="section-title">如何找到我们</h2>
+        <div class="map-wrapper">
+          <div class="map-placeholder">
+            <p>地图加载中...</p>
+            <small>中国浙江省诸暨市枫桥镇海浦大道6-1号</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="container">
+        <h2 class="section-title">为什么选择我们</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>快速响应</h3>
+            <p>2个工作日内回复所有咨询</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📦</div>
+            <h3>灵活起订量</h3>
+            <p>MOQ低至200公斤，交货快至2天</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>定制方案</h3>
+            <p>为您的应用定制专属扁线解决方案</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏆</div>
+            <h3>ISO认证</h3>
+            <p>ISO9001认证工厂，质量有保障</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .contact-page {
+      background: #f8f9fa;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.95;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Contact Content */
+    .contact-content {
+      padding: 80px 0;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 60px;
+    }
+
+    /* Contact Form */
+    .contact-form-wrapper {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .contact-form-wrapper h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: #2d3748;
+    }
+
+    .form-intro {
+      color: #718096;
+      margin-bottom: 2rem;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #2d3748;
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      padding: 15px 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Contact Info */
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .info-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .info-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      color: #2d3748;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 10px;
+    }
+
+    .info-item {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .info-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-icon {
+      font-size: 1.5rem;
+      min-width: 30px;
+    }
+
+    .info-text {
+      flex: 1;
+      line-height: 1.6;
+      color: #4a5568;
+    }
+
+    .info-text strong {
+      display: block;
+      color: #2d3748;
+      margin-bottom: 0.25rem;
+    }
+
+    .info-text a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .info-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Quick Links */
+    .quick-link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .quick-link-list a {
+      padding: 12px 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #4a5568;
+      transition: all 0.3s;
+    }
+
+    .quick-link-list a:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      transform: translateX(5px);
+    }
+
+    /* Social Media */
+    .social-icons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-icon {
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8f9fa;
+      border-radius: 50%;
+      color: #4a5568;
+      transition: all 0.3s;
+    }
+
+    .social-icon:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* Map Section */
+    .map-section {
+      padding: 80px 0;
+      background: white;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: #2d3748;
+    }
+
+    .map-wrapper {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .map-placeholder {
+      width: 100%;
+      height: 400px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    /* Features Section */
+    .features-section {
+      padding: 80px 0;
+      background: #f8f9fa;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #2d3748;
+    }
+
+    .feature-card p {
+      color: #4a5568;
+      line-height: 1.6;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .social-icons {
+        justify-content: center;
+      }
+    }
+  </style>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+        
+        // 这里可以添加实际的表单提交逻辑
+        console.log('表单数据:', data);
+        
+        // 显示成功消息
+        alert('感谢您的咨询！我们会尽快与您联系。');
+        form.reset();
+      });
+    }
+  </script>
+</Layout>

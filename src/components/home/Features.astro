@@ -1,0 +1,192 @@
+---
+/**
+ * Features 特性展示组件
+ * 展示产品或服务的主要特性
+ */
+import Card from '@/components/common/Card.astro';
+
+interface Feature {
+  icon: string;
+  title: string;
+  description: string;
+  link?: {
+    text: string;
+    href: string;
+  };
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  features: Feature[];
+  columns?: 2 | 3 | 4;
+  variant?: 'cards' | 'grid' | 'list';
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  features,
+  columns = 3,
+  variant = 'cards',
+} = Astro.props;
+
+// 列数样式
+const columnStyles = {
+  2: 'md:grid-cols-2',
+  3: 'md:grid-cols-2 lg:grid-cols-3',
+  4: 'md:grid-cols-2 lg:grid-cols-4',
+};
+---
+
+<section class="py-16 sm:py-20 lg:py-24 bg-white">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <!-- 标题区域 -->
+    {(title || subtitle || description) && (
+      <div class="text-center mb-12 lg:mb-16 max-w-3xl mx-auto">
+        {subtitle && (
+          <p class="text-blue-600 font-semibold text-sm uppercase tracking-wide mb-3">
+            {subtitle}
+          </p>
+        )}
+        
+        {title && (
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+            {title}
+          </h2>
+        )}
+        
+        {description && (
+          <p class="text-lg text-gray-600">
+            {description}
+          </p>
+        )}
+      </div>
+    )}
+
+    <!-- 特性网格 - Cards 样式 -->
+    {variant === 'cards' && (
+      <div class={`grid gap-8 ${columnStyles[columns]}`}>
+        {features.map((feature) => (
+          <Card variant="bordered" padding="lg" hover>
+            <div class="flex flex-col items-center text-center">
+              <!-- 图标 -->
+              <div class="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center mb-5 text-blue-600">
+                <div class="w-8 h-8" set:html={feature.icon} />
+              </div>
+
+              <!-- 标题 -->
+              <h3 class="text-xl font-bold text-gray-900 mb-3">
+                {feature.title}
+              </h3>
+
+              <!-- 描述 -->
+              <p class="text-gray-600 mb-4 flex-grow">
+                {feature.description}
+              </p>
+
+              <!-- 可选链接 -->
+              {feature.link && (
+                <a 
+                  href={feature.link.href}
+                  class="text-blue-600 hover:text-blue-700 font-medium inline-flex items-center gap-1 group"
+                >
+                  {feature.link.text}
+                  <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              )}
+            </div>
+          </Card>
+        ))}
+      </div>
+    )}
+
+    <!-- 特性网格 - Grid 样式 -->
+    {variant === 'grid' && (
+      <div class={`grid gap-8 ${columnStyles[columns]}`}>
+        {features.map((feature) => (
+          <div class="group">
+            <div class="flex gap-4">
+              <!-- 图标 -->
+              <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
+                <div class="w-6 h-6" set:html={feature.icon} />
+              </div>
+
+              <!-- 内容 -->
+              <div class="flex-1">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">
+                  {feature.title}
+                </h3>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                  {feature.description}
+                </p>
+                {feature.link && (
+                  <a 
+                    href={feature.link.href}
+                    class="text-blue-600 hover:text-blue-700 text-sm font-medium inline-flex items-center gap-1 mt-2 group"
+                  >
+                    {feature.link.text}
+                    <svg class="w-3 h-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- 特性列表 - List 样式 -->
+    {variant === 'list' && (
+      <div class="max-w-4xl mx-auto space-y-8">
+        {features.map((feature, index) => (
+          <div class="flex gap-6 items-start group">
+            <!-- 序号 + 图标 -->
+            <div class="flex-shrink-0 relative">
+              <div class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-100 transition-colors duration-300">
+                <div class="w-8 h-8" set:html={feature.icon} />
+              </div>
+              <div class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center font-bold">
+                {index + 1}
+              </div>
+            </div>
+
+            <!-- 内容 -->
+            <div class="flex-1 pt-2">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                {feature.title}
+              </h3>
+              <p class="text-gray-600 leading-relaxed mb-3">
+                {feature.description}
+              </p>
+              {feature.link && (
+                <a 
+                  href={feature.link.href}
+                  class="text-blue-600 hover:text-blue-700 font-medium inline-flex items-center gap-1 group"
+                >
+                  {feature.link.text}
+                  <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  /* 卡片悬停效果增强 */
+  .group:hover .flex-shrink-0 {
+    transform: scale(1.05);
+  }
+</style>

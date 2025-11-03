@@ -1,0 +1,232 @@
+---
+import Card from '../ui/Card.astro';
+import Button from '../ui/Button.astro';
+import Badge from '../ui/Badge.astro';
+import type { Translations } from '../../types';
+
+interface RelatedProduct {
+  id: string;
+  name: string;
+  nameZh: string;
+  category: string;
+  categoryZh: string;
+  description: string;
+  descriptionZh: string;
+  image: string;
+  keyFeatures: string[];
+  keyFeaturesZh: string[];
+  relationshipType: 'similar' | 'complementary' | 'upgrade';
+  popular?: boolean;
+}
+
+interface Props {
+  lang: 'en' | 'zh';
+  products: RelatedProduct[];
+  currentProductId?: string;
+}
+
+const { lang, products, currentProductId } = Astro.props;
+
+const t: Translations = {
+  en: {
+    sectionTitle: 'You May Also Be Interested In',
+    sectionSubtitle: 'Explore Our Related Products',
+    learnMore: 'Learn More',
+    compareProducts: 'Compare Products',
+    similar: 'Similar Product',
+    complementary: 'Works Well With',
+    upgrade: 'Upgrade Option',
+    popular: 'Popular',
+    viewAll: 'View All Products'
+  },
+  zh: {
+    sectionTitle: '您可能还感兴趣',
+    sectionSubtitle: '探索我们的相关产品',
+    learnMore: '了解更多',
+    compareProducts: '比较产品',
+    similar: '类似产品',
+    complementary: '搭配使用',
+    upgrade: '升级选项',
+    popular: '热门',
+    viewAll: '查看所有产品'
+  }
+};
+
+const content = t[lang];
+
+// Filter out current product if ID is provided
+const displayProducts = currentProductId 
+  ? products.filter(p => p.id !== currentProductId)
+  : products;
+
+// Color schemes for different product types
+const colorSchemes: Record<string, string> = {
+  copper: 'from-orange-500 to-red-500',
+  aluminum: 'from-gray-400 to-gray-600',
+  bimetal: 'from-yellow-500 to-orange-500',
+  coated: 'from-purple-500 to-pink-500',
+  enameled: 'from-green-500 to-teal-500',
+  specialty: 'from-blue-500 to-indigo-600',
+  default: 'from-blue-500 to-blue-600'
+};
+
+// Relationship type labels
+const relationshipLabels = {
+  similar: { en: content.similar, badge: 'info' },
+  complementary: { en: content.complementary, badge: 'success' },
+  upgrade: { en: content.upgrade, badge: 'warning' }
+};
+---
+
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        {content.sectionTitle}
+      </h2>
+      <p class="text-xl text-gray-600">
+        {content.sectionSubtitle}
+      </p>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      {displayProducts.slice(0, 6).map((product) => {
+        const gradientClass = colorSchemes[product.image] || colorSchemes.default;
+        const relationship = relationshipLabels[product.relationshipType];
+        
+        return (
+          <Card variant="hover" class="group overflow-hidden bg-white hover:shadow-2xl transition-all duration-300">
+            <!-- Product Image with Gradient -->
+            <div class={`relative h-56 bg-gradient-to-br ${gradientClass}`}>
+              {/* Pattern Overlay */}
+              <div class="absolute inset-0 opacity-20">
+                <div class="absolute inset-0" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.1) 10px, rgba(255,255,255,.1) 20px);"></div>
+              </div>
+
+              {/* Badges */}
+              <div class="absolute top-4 left-4 right-4 flex justify-between items-start">
+                <Badge variant={relationship.badge as any} class="shadow-lg text-xs font-bold">
+                  {relationship.en}
+                </Badge>
+                {product.popular && (
+                  <Badge variant="warning" class="shadow-lg text-xs font-bold">
+                    ⭐ {content.popular}
+                  </Badge>
+                )}
+              </div>
+
+              {/* Metal Wire Illustration */}
+              <div class="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/30 to-transparent flex items-end justify-center pb-4">
+                <div class="flex gap-1">
+                  {Array.from({length: 8}).map((_, i) => (
+                    <div class="w-2 h-16 bg-white/30 rounded-full transform group-hover:scale-y-125 transition-transform duration-300" style={`animation-delay: ${i * 0.1}s;`}></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div class="p-6">
+              {/* Category */}
+              <div class="text-sm text-gray-600 mb-2">
+                {lang === 'en' ? product.category : product.categoryZh}
+              </div>
+
+              {/* Product Name */}
+              <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                {lang === 'en' ? product.name : product.nameZh}
+              </h3>
+
+              {/* Description */}
+              <p class="text-gray-600 mb-4 line-clamp-2">
+                {lang === 'en' ? product.description : product.descriptionZh}
+              </p>
+
+              {/* Key Features */}
+              <div class="mb-6">
+                <ul class="space-y-2">
+                  {(lang === 'en' ? product.keyFeatures : product.keyFeaturesZh).slice(0, 3).map(feature => (
+                    <li class="flex items-start text-sm text-gray-700">
+                      <svg class="w-4 h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                      </svg>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* CTA Button */}
+              <Button 
+                href={lang === 'en' ? `/en/products/${product.id}` : `/zh/products/${product.id}`}
+                variant="outline"
+                size="small"
+                class="w-full group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300"
+              >
+                {content.learnMore}
+                <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </Button>
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+
+    <!-- Product Comparison CTA -->
+    <div class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl p-8 md:p-12 mb-8">
+      <div class="max-w-4xl mx-auto text-center">
+        <h3 class="text-3xl font-bold text-gray-900 mb-4">
+          {lang === 'en' 
+            ? 'Not Sure Which Product Is Right for You?' 
+            : '不确定哪种产品适合您？'}
+        </h3>
+        <p class="text-xl text-gray-600 mb-8">
+          {lang === 'en' 
+            ? 'Our technical team can help you compare products and select the best solution for your specific requirements.' 
+            : '我们的技术团队可以帮助您比较产品并选择最适合您特定需求的解决方案。'}
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <Button 
+            href={lang === 'en' ? '/en/products/compare' : '/zh/products/compare'}
+            variant="primary"
+            size="large"
+            class="shadow-xl hover:shadow-2xl"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            {content.compareProducts}
+          </Button>
+          
+          <Button 
+            href={lang === 'en' ? '/en/contact?type=consultation' : '/zh/contact?type=consultation'}
+            variant="outline"
+            size="large"
+          >
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            {lang === 'en' ? 'Talk to an Expert' : '咨询专家'}
+          </Button>
+        </div>
+      </div>
+    </div>
+
+    <!-- View All Products Button -->
+    <div class="text-center">
+      <Button 
+        href={lang === 'en' ? '/en/products' : '/zh/products'}
+        variant="secondary"
+        size="large"
+      >
+        {content.viewAll}
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        </svg>
+      </Button>
+    </div>
+  </div>
+</section>

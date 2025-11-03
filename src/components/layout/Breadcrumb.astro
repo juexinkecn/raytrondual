@@ -1,0 +1,204 @@
+---
+/**
+ * Breadcrumb Component - 面包屑导航
+ * 
+ * 功能:
+ * - 自动生成路径
+ * - Breadcrumb Schema标记
+ * - 响应式设计
+ * - 可自定义覆盖路径
+ * - 支持图标
+ */
+
+import { Icon } from 'astro-icon/components';
+
+interface BreadcrumbItem {
+  name: string;
+  href?: string;
+  icon?: string;
+}
+
+interface Props {
+  items?: BreadcrumbItem[];
+  lang: 'en' | 'cn';
+  currentPath?: string;
+}
+
+const { items, lang, currentPath } = Astro.props;
+
+// 获取当前域名前缀
+const siteUrl = lang === 'en' ? 'https://en.raytron.group' : 'https://cn.raytron.group';
+
+// 路径名称映射
+const pathNameMap = {
+  en: {
+    products: 'Products',
+    applications: 'Applications',
+    resources: 'Resources',
+    blog: 'Blog',
+    about: 'About',
+    contact: 'Contact',
+    faq: 'FAQ',
+    solutions: 'Solutions',
+    copper: 'Copper Series',
+    aluminum: 'Aluminum Series',
+    cca: 'Copper Clad Aluminum',
+    ncc: 'Nickel Clad Copper',
+    scc: 'Silver Clad Copper',
+    ccs: 'Copper Clad Steel',
+    specialty: 'Specialty Products',
+  },
+  cn: {
+    products: '产品中心',
+    applications: '应用领域',
+    resources: '资源中心',
+    blog: '博客',
+    about: '关于我们',
+    contact: '联系我们',
+    faq: '常见问题',
+    solutions: '解决方案',
+    copper: '铜系列',
+    aluminum: '铝系列',
+    cca: '铜包铝系列',
+    ncc: '镍包铜系列',
+    scc: '银包铜系列',
+    ccs: '铜包钢系列',
+    specialty: '特种产品',
+  },
+};
+
+const nameMap = pathNameMap[lang];
+
+// 如果没有提供items，从currentPath自动生成
+let breadcrumbItems: BreadcrumbItem[];
+
+if (items) {
+  breadcrumbItems = items;
+} else if (currentPath) {
+  // 从URL路径自动生成面包屑
+  const pathSegments = currentPath.split('/').filter(Boolean);
+  
+  breadcrumbItems = [
+    { name: lang === 'en' ? 'Home' : '首页', href: '/', icon: 'lucide:home' },
+  ];
+
+  let accumulatedPath = '';
+  pathSegments.forEach((segment, index) => {
+    accumulatedPath += `/${segment}`;
+    const isLast = index === pathSegments.length - 1;
+    
+    // 转换路径片段为可读名称
+    let name = nameMap[segment as keyof typeof nameMap] || segment;
+    
+    // 处理动态路由（如产品slug）
+    if (!nameMap[segment as keyof typeof nameMap]) {
+      // 将kebab-case转换为Title Case
+      name = segment
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+
+    breadcrumbItems.push({
+      name,
+      href: isLast ? undefined : accumulatedPath,
+    });
+  });
+} else {
+  // 默认只显示首页
+  breadcrumbItems = [
+    { name: lang === 'en' ? 'Home' : '首页', href: '/', icon: 'lucide:home' },
+  ];
+}
+
+// 生成结构化数据
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbItems.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    ...(item.href && { item: `${siteUrl}${item.href}` }),
+  })),
+};
+---
+
+<!-- 结构化数据 -->
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+<!-- 面包屑导航 -->
+<nav
+  aria-label={lang === 'en' ? 'Breadcrumb' : '面包屑导航'}
+  class="bg-gray-50 border-b border-gray-200"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+    <ol class="flex items-center space-x-2 text-sm overflow-x-auto scrollbar-hide">
+      {breadcrumbItems.map((item, index) => {
+        const isLast = index === breadcrumbItems.length - 1;
+        
+        return (
+          <li class="flex items-center flex-shrink-0">
+            {index > 0 && (
+              <Icon
+                name="lucide:chevron-right"
+                class="w-4 h-4 text-gray-400 mx-2 flex-shrink-0"
+              />
+            )}
+            
+            {isLast ? (
+              <span
+                class="text-gray-700 font-medium flex items-center"
+                aria-current="page"
+              >
+                {item.icon && (
+                  <Icon name={item.icon} class="w-4 h-4 mr-1.5" />
+                )}
+                <span class="truncate max-w-xs sm:max-w-sm md:max-w-md">
+                  {item.name}
+                </span>
+              </span>
+            ) : (
+              <a
+                href={`${siteUrl}${item.href}`}
+                class="text-gray-600 hover:text-primary-600 transition-colors flex items-center"
+              >
+                {item.icon && (
+                  <Icon name={item.icon} class="w-4 h-4 mr-1.5" />
+                )}
+                <span class="truncate max-w-xs sm:max-w-sm">
+                  {item.name}
+                </span>
+              </a>
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+</nav>
+
+<style>
+  /* 隐藏滚动条但保持可滚动 */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+
+  /* 响应式文字截断 */
+  @media (max-width: 640px) {
+    .truncate {
+      max-width: 120px;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 768px) {
+    .truncate {
+      max-width: 200px;
+    }
+  }
+</style>

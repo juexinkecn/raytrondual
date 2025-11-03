@@ -1,0 +1,203 @@
+---
+// src/pages/products/[slug].astro
+import ProductLayout from '../../layouts/ProductLayout.astro';
+import ProductHero from '../../components/product/ProductHero.astro';
+import ProductSpecs from '../../components/product/ProductSpecs.astro';
+import ProductApplications from '../../components/product/ProductApplications.astro';
+import RelatedProducts from '../../components/product/RelatedProducts.astro';
+import CTASection from '../../components/home/CTASection.astro';
+
+// 产品数据（实际项目中应从CMS或数据库获取）
+const products = {
+  'copper-flat-wire': {
+    name: 'Copper Flat Wire & Ribbon',
+    nameZh: '铜扁线/带材',
+    description: 'High-purity copper flat wire and ribbon with exceptional conductivity for solar PV, battery, and electrical applications.',
+    descriptionZh: '高纯度铜扁线和带材，具有卓越的导电性，适用于光伏、电池和电气应用。',
+    category: 'Copper Products',
+    categoryZh: '铜制品',
+    
+    features: [
+      'Conductivity: ≥99.9% IACS',
+      'Width-to-thickness ratio: up to 100:1',
+      'Precision tolerance: ±0.01mm',
+      'Surface finish: Bright or matte',
+      'ISO 9001 certified production',
+    ],
+    featuresZh: [
+      '导电率：≥99.9% IACS',
+      '宽厚比：最高100:1',
+      '精度公差：±0.01mm',
+      '表面处理：光亮或哑光',
+      'ISO 9001认证生产',
+    ],
+    
+    applications: ['Solar PV Ribbon', 'Battery Tab', 'Cable Shielding', 'Smart Home'],
+    applicationsZh: ['光伏焊带', '电池极耳', '电缆屏蔽', '智能家居'],
+    
+    specs: [
+      {
+        category: 'Physical Properties',
+        categoryZh: '物理性能',
+        items: [
+          { name: 'Width Range', nameZh: '宽度范围', value: '0.5 - 50 mm' },
+          { name: 'Thickness Range', nameZh: '厚度范围', value: '0.05 - 2.0 mm' },
+          { name: 'Density', nameZh: '密度', value: '8.96 g/cm³' },
+          { name: 'Melting Point', nameZh: '熔点', value: '1085°C' },
+        ]
+      },
+      {
+        category: 'Electrical Properties',
+        categoryZh: '电气性能',
+        items: [
+          { name: 'Conductivity', nameZh: '导电率', value: '≥99.9% IACS' },
+          { name: 'Resistivity', nameZh: '电阻率', value: '≤0.01724 Ω·mm²/m' },
+          { name: 'Temperature Coefficient', nameZh: '温度系数', value: '0.00393/°C' },
+        ]
+      },
+      {
+        category: 'Mechanical Properties',
+        categoryZh: '机械性能',
+        items: [
+          { name: 'Tensile Strength', nameZh: '抗拉强度', value: '220-420 MPa' },
+          { name: 'Elongation', nameZh: '延伸率', value: '≥3%' },
+          { name: 'Hardness', nameZh: '硬度', value: '70-110 HV' },
+        ]
+      },
+    ],
+    
+    certifications: [
+      { name: 'ISO 9001:2015', icon: '✓' },
+      { name: 'RoHS Compliant', icon: '✓' },
+      { name: 'IEC 62852', icon: '✓' },
+    ],
+    
+    detailedApplications: [
+      {
+        title: 'Solar PV Ribbon',
+        titleZh: '光伏焊带',
+        description: 'Optimized for photovoltaic cell interconnection with excellent solderability',
+        descriptionZh: '优化用于光伏电池互连，具有优异的可焊性',
+        benefits: [
+          'Low electrical resistance',
+          'High current carrying capacity',
+          'Excellent corrosion resistance',
+          'Precise dimensional control',
+        ],
+        benefitsZh: [
+          '低电阻',
+          '高载流能力',
+          '优异的耐腐蚀性',
+          '精确的尺寸控制',
+        ],
+        specs: ['Width: 1.5-6mm', 'Thickness: 0.15-0.25mm', 'Coating: Sn/Ag optional'],
+        specsZh: ['宽度：1.5-6mm', '厚度：0.15-0.25mm', '涂层：可选镀锡/镀银'],
+      },
+      {
+        title: 'Battery Tab',
+        titleZh: '电池极耳',
+        description: 'High-purity copper tabs for lithium-ion and other battery applications',
+        descriptionZh: '高纯度铜极耳，用于锂离子电池等应用',
+        benefits: [
+          'Ultra-low internal resistance',
+          'High mechanical strength',
+          'Excellent weldability',
+          'Consistent thickness tolerance',
+        ],
+        benefitsZh: [
+          '超低内阻',
+          '高机械强度',
+          '优异的可焊性',
+          '一致的厚度公差',
+        ],
+        specs: ['Purity: 99.9%+', 'Thickness: 0.1-0.3mm', 'Surface: Bright annealed'],
+        specsZh: ['纯度：99.9%+', '厚度：0.1-0.3mm', '表面：光亮退火'],
+      },
+    ],
+    
+    relatedProducts: [
+      {
+        name: 'Tin-Plated Copper Flat Wire',
+        nameZh: '镀锡铜扁线',
+        slug: 'coated-flat-wire',
+        relationship: 'upgrade',
+        relationshipZh: '升级版',
+      },
+      {
+        name: 'Aluminum Flat Wire',
+        nameZh: '铝扁线',
+        slug: 'aluminum-flat-wire',
+        relationship: 'alternative',
+        relationshipZh: '替代品',
+      },
+      {
+        name: 'Copper-Aluminum Bimetal',
+        nameZh: '铜铝复合带',
+        slug: 'bimetal-ribbon',
+        relationship: 'complementary',
+        relationshipZh: '互补品',
+      },
+    ],
+  },
+  
+  // 可以继续添加其他产品数据...
+};
+
+export async function getStaticPaths() {
+  return [
+    { params: { slug: 'copper-flat-wire' } },
+    { params: { slug: 'aluminum-flat-wire' } },
+    { params: { slug: 'bimetal-ribbon' } },
+    { params: { slug: 'coated-flat-wire' } },
+    { params: { slug: 'enameled-flat-wire' } },
+    { params: { slug: 'specialty-metal-strip' } },
+  ];
+}
+
+const { slug } = Astro.params;
+const product = products[slug as keyof typeof products] || products['copper-flat-wire'];
+
+const pageTitle = `${product.name} - Raytron`;
+const pageDescription = product.description;
+---
+
+<ProductLayout 
+  title={pageTitle}
+  description={pageDescription}
+  lang="en"
+>
+  {/* Product Hero */}
+  <ProductHero
+    name={product.name}
+    description={product.description}
+    category={product.category}
+    features={product.features}
+    applications={product.applications}
+    lang="en"
+  />
+
+  {/* Product Specifications */}
+  <ProductSpecs
+    specs={product.specs}
+    certifications={product.certifications}
+    productName={product.name}
+    lang="en"
+  />
+
+  {/* Detailed Applications */}
+  <ProductApplications
+    applications={product.detailedApplications}
+    productName={product.name}
+    lang="en"
+  />
+
+  {/* Related Products */}
+  <RelatedProducts
+    products={product.relatedProducts}
+    currentProduct={product.name}
+    lang="en"
+  />
+
+  {/* CTA Section */}
+  <CTASection lang="en" />
+</ProductLayout>

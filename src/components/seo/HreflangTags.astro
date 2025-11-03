@@ -1,0 +1,22 @@
+---
+// src/components/seo/HreflangTags.astro
+import type { Language } from '@/types';
+import { generateHreflangLinks } from '@/lib/seo';
+
+export interface Props {
+  currentPath: string;
+  currentLang: Language;
+}
+
+const { currentPath, currentLang } = Astro.props;
+
+// 生成hreflang链接
+const hreflangLinks = generateHreflangLinks(currentPath);
+---
+
+<!-- Hreflang标签 -->
+{
+  hreflangLinks.map((link) => (
+    <link rel="alternate" hreflang={link.hreflang} href={link.href} />
+  ))
+}

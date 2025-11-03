@@ -1,0 +1,328 @@
+---
+// src/components/home/ApplicationsOverview.astro
+import Card from '../ui/Card.astro';
+import Badge from '../ui/Badge.astro';
+import Button from '../ui/Button.astro';
+import type { Language } from '../../types/language';
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = 'en' } = Astro.props;
+
+// 应用领域数据
+const applications = {
+  en: [
+    {
+      id: 'photovoltaic',
+      name: 'Photovoltaic Industry',
+      icon: '☀️',
+      description: 'PV ribbon for solar cell interconnection, busbar tape, and module manufacturing.',
+      products: ['Copper Flat Wire', 'Tinned Copper Ribbon', 'Silver-coated Ribbon'],
+      keyBenefits: ['High conductivity', 'Excellent solderability', 'Corrosion resistance'],
+      marketShare: 'Leading supplier in China',
+      gradient: 'from-yellow-500 to-orange-500',
+    },
+    {
+      id: 'battery',
+      name: 'Battery Manufacturing',
+      icon: '🔋',
+      description: 'Battery tabs, current collectors, and connection strips for lithium-ion and other battery types.',
+      products: ['Aluminum Ribbon', 'Copper Flat Wire', 'Nickel-plated Strips'],
+      keyBenefits: ['Ultra-thin precision', 'High strength', 'Superior conductivity'],
+      marketShare: 'Top 3 in Asia',
+      gradient: 'from-green-500 to-teal-500',
+    },
+    {
+      id: 'automotive',
+      name: 'Automotive Industry',
+      icon: '🚗',
+      description: 'Wire harness components, EV battery connections, and automotive electronics.',
+      products: ['Enameled Flat Wire', 'Copper-Aluminum Bimetal', 'Coated Flat Wire'],
+      keyBenefits: ['Lightweight', 'High reliability', 'Temperature resistant'],
+      marketShare: 'Tier 1 supplier certified',
+      gradient: 'from-blue-500 to-indigo-500',
+    },
+    {
+      id: 'cable',
+      name: 'Cable & Wire',
+      icon: '⚡',
+      description: 'EMI shielding tape, cable armor, and conductor materials for power and data cables.',
+      products: ['Aluminum Flat Wire', 'Copper-Steel Bimetal', 'Tinned Copper Strip'],
+      keyBenefits: ['EMI shielding', 'Flexibility', 'Cost-effective'],
+      marketShare: 'Major cable manufacturers',
+      gradient: 'from-purple-500 to-pink-500',
+    },
+    {
+      id: 'smart-home',
+      name: 'Smart Home',
+      icon: '🏠',
+      description: 'Connectors and conductors for smart devices, IoT sensors, and home automation systems.',
+      products: ['Copper Flat Wire', 'Specialty Alloy Ribbon', 'Coated Strips'],
+      keyBenefits: ['Miniaturization', 'Signal integrity', 'Durability'],
+      marketShare: 'Growing segment',
+      gradient: 'from-cyan-500 to-blue-500',
+    },
+    {
+      id: 'aerospace',
+      name: 'Aerospace',
+      icon: '✈️',
+      description: 'High-performance materials for avionics, satellites, and aircraft electrical systems.',
+      products: ['Titanium Ribbon', 'Specialty Alloys', 'Precision Flat Wire'],
+      keyBenefits: ['Lightweight', 'High strength-to-weight', 'Extreme temperature'],
+      marketShare: 'Certified supplier',
+      gradient: 'from-slate-500 to-gray-500',
+    },
+    {
+      id: 'medical',
+      name: 'Medical Engineering',
+      icon: '⚕️',
+      description: 'Medical device components, surgical instruments, and diagnostic equipment.',
+      products: ['Tantalum Ribbon', 'Niobium Strip', 'Biocompatible Alloys'],
+      keyBenefits: ['Biocompatibility', 'Corrosion resistance', 'Precision'],
+      marketShare: 'Medical-grade certified',
+      gradient: 'from-red-500 to-rose-500',
+    },
+    {
+      id: 'industrial',
+      name: 'Industrial Electronics',
+      icon: '⚙️',
+      description: 'Transformers, motors, sensors, and industrial automation equipment.',
+      products: ['Enameled Flat Wire', 'Copper Ribbon', 'Aluminum Strip'],
+      keyBenefits: ['High efficiency', 'Temperature stability', 'Custom solutions'],
+      marketShare: 'Industry standard',
+      gradient: 'from-amber-500 to-yellow-500',
+    },
+  ],
+  zh: [
+    {
+      id: 'photovoltaic',
+      name: '光伏行业',
+      icon: '☀️',
+      description: '用于太阳能电池互连、汇流带及组件制造的光伏焊带。',
+      products: ['铜扁线', '镀锡铜带', '镀银焊带'],
+      keyBenefits: ['高导电性', '优异的可焊性', '耐腐蚀性'],
+      marketShare: '中国领先供应商',
+      gradient: 'from-yellow-500 to-orange-500',
+    },
+    {
+      id: 'battery',
+      name: '电池制造',
+      icon: '🔋',
+      description: '锂离子电池及其他电池类型的极耳、集流体和连接带。',
+      products: ['铝带', '铜扁线', '镀镍带材'],
+      keyBenefits: ['超薄精密', '高强度', '优异导电性'],
+      marketShare: '亚洲前三',
+      gradient: 'from-green-500 to-teal-500',
+    },
+    {
+      id: 'automotive',
+      name: '汽车工业',
+      icon: '🚗',
+      description: '线束组件、新能源汽车电池连接及汽车电子元件。',
+      products: ['漆包扁线', '铜铝复合带', '涂层扁线'],
+      keyBenefits: ['轻量化', '高可靠性', '耐高温'],
+      marketShare: '一级供应商认证',
+      gradient: 'from-blue-500 to-indigo-500',
+    },
+    {
+      id: 'cable',
+      name: '电缆线材',
+      icon: '⚡',
+      description: 'EMI屏蔽带、电缆铠装及电力和数据电缆的导体材料。',
+      products: ['铝扁线', '铜钢复合带', '镀锡铜带'],
+      keyBenefits: ['电磁屏蔽', '柔韧性', '经济实惠'],
+      marketShare: '主要电缆制造商',
+      gradient: 'from-purple-500 to-pink-500',
+    },
+    {
+      id: 'smart-home',
+      name: '智能家居',
+      icon: '🏠',
+      description: '智能设备、物联网传感器和家庭自动化系统的连接器和导体。',
+      products: ['铜扁线', '特殊合金带', '涂层带材'],
+      keyBenefits: ['小型化', '信号完整性', '耐用性'],
+      marketShare: '增长领域',
+      gradient: 'from-cyan-500 to-blue-500',
+    },
+    {
+      id: 'aerospace',
+      name: '航空航天',
+      icon: '✈️',
+      description: '航空电子、卫星和飞机电气系统的高性能材料。',
+      products: ['钛带', '特殊合金', '精密扁线'],
+      keyBenefits: ['轻量化', '高强度重量比', '极端温度'],
+      marketShare: '认证供应商',
+      gradient: 'from-slate-500 to-gray-500',
+    },
+    {
+      id: 'medical',
+      name: '医疗工程',
+      icon: '⚕️',
+      description: '医疗器械组件、手术器械和诊断设备。',
+      products: ['钽带', '铌带', '生物相容合金'],
+      keyBenefits: ['生物相容性', '耐腐蚀性', '精密度'],
+      marketShare: '医疗级认证',
+      gradient: 'from-red-500 to-rose-500',
+    },
+    {
+      id: 'industrial',
+      name: '工业电子',
+      icon: '⚙️',
+      description: '变压器、电机、传感器和工业自动化设备。',
+      products: ['漆包扁线', '铜带', '铝带'],
+      keyBenefits: ['高效率', '温度稳定性', '定制方案'],
+      marketShare: '行业标准',
+      gradient: 'from-amber-500 to-yellow-500',
+    },
+  ],
+};
+
+const content = {
+  en: {
+    sectionTitle: 'Industry Applications',
+    sectionSubtitle: 'Powering Innovation Across Industries',
+    description: 'Our precision flat wire and ribbon products serve diverse industries worldwide, from renewable energy to advanced manufacturing.',
+    viewAllButton: 'View All Applications',
+    learnMoreButton: 'Learn More',
+  },
+  zh: {
+    sectionTitle: '行业应用',
+    sectionSubtitle: '为各行业创新赋能',
+    description: '我们的精密扁线和带材产品服务于全球各行各业，从可再生能源到先进制造。',
+    viewAllButton: '查看所有应用',
+    learnMoreButton: '了解更多',
+  },
+};
+
+const t = content[lang];
+const apps = applications[lang];
+---
+
+<section class="py-16 sm:py-24 bg-gradient-to-b from-white to-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <Badge variant="primary" size="lg" class="mb-4">
+        {t.sectionTitle}
+      </Badge>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+        {t.sectionSubtitle}
+      </h2>
+      <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+        {t.description}
+      </p>
+    </div>
+
+    <!-- Applications Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      {apps.map((app) => (
+        <Card
+          hoverable
+          class="group relative overflow-hidden"
+        >
+          <!-- Gradient Background -->
+          <div class={`absolute inset-0 bg-gradient-to-br ${app.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+          
+          <!-- Content -->
+          <div class="relative z-10">
+            <!-- Icon -->
+            <div class="text-5xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+              {app.icon}
+            </div>
+            
+            <!-- Title -->
+            <h3 class="text-xl font-bold text-gray-900 mb-3">
+              {app.name}
+            </h3>
+            
+            <!-- Description -->
+            <p class="text-sm text-gray-600 mb-4 line-clamp-3">
+              {app.description}
+            </p>
+            
+            <!-- Key Products -->
+            <div class="mb-4">
+              <div class="flex flex-wrap gap-1.5">
+                {app.products.slice(0, 2).map((product) => (
+                  <Badge variant="secondary" size="sm">
+                    {product}
+                  </Badge>
+                ))}
+                {app.products.length > 2 && (
+                  <Badge variant="secondary" size="sm">
+                    +{app.products.length - 2}
+                  </Badge>
+                )}
+              </div>
+            </div>
+            
+            <!-- Key Benefits -->
+            <div class="space-y-2 mb-4">
+              {app.keyBenefits.slice(0, 2).map((benefit) => (
+                <div class="flex items-start gap-2 text-sm text-gray-600">
+                  <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                  </svg>
+                  <span>{benefit}</span>
+                </div>
+              ))}
+            </div>
+            
+            <!-- Market Position -->
+            <div class="pt-4 border-t border-gray-200">
+              <div class="flex items-center gap-2 text-xs text-gray-500">
+                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+                <span class="font-medium">{app.marketShare}</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Hover Effect Arrow -->
+          <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </div>
+        </Card>
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center">
+      <Button href="/applications" variant="primary" size="lg">
+        {t.viewAllButton}
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </Button>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* 文本截断 */
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 卡片阴影增强 */
+  .group:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* 响应式优化 */
+  @media (max-width: 768px) {
+    .grid {
+      gap: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,199 @@
+---
+/**
+ * ProductShowcase 产品展示组件
+ * 展示主打产品或服务的详细信息
+ */
+import Button from '@/components/common/Button.astro';
+import Badge from '@/components/common/Badge.astro';
+
+interface Product {
+  name: string;
+  description: string;
+  image: string;
+  badge?: string;
+  features: string[];
+  cta: {
+    text: string;
+    href: string;
+  };
+  secondaryCTA?: {
+    text: string;
+    href: string;
+  };
+}
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  products: Product[];
+  layout?: 'alternating' | 'grid';
+}
+
+const {
+  title,
+  subtitle,
+  products,
+  layout = 'alternating',
+} = Astro.props;
+---
+
+<section class="py-16 sm:py-20 lg:py-24 bg-gray-50">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <!-- 标题区域 -->
+    {(title || subtitle) && (
+      <div class="text-center mb-12 lg:mb-16 max-w-3xl mx-auto">
+        {subtitle && (
+          <p class="text-blue-600 font-semibold text-sm uppercase tracking-wide mb-3">
+            {subtitle}
+          </p>
+        )}
+        
+        {title && (
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900">
+            {title}
+          </h2>
+        )}
+      </div>
+    )}
+
+    <!-- 交替布局 -->
+    {layout === 'alternating' && (
+      <div class="space-y-16 lg:space-y-24">
+        {products.map((product, index) => (
+          <div class={`grid lg:grid-cols-2 gap-8 lg:gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+            <!-- 图片 -->
+            <div class={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+              <div class="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/3] bg-gradient-to-br from-blue-500 to-purple-600">
+                <img 
+                  src={product.image} 
+                  alt={product.name}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              
+              <!-- 装饰元素 -->
+              <div class={`absolute -bottom-6 ${index % 2 === 1 ? '-left-6' : '-right-6'} w-32 h-32 bg-yellow-400 rounded-full -z-10 blur-2xl opacity-40`}></div>
+            </div>
+
+            <!-- 内容 -->
+            <div class={index % 2 === 1 ? 'lg:order-1' : ''}>
+              {product.badge && (
+                <Badge variant="primary" size="md" rounded="full" class="mb-4">
+                  {product.badge}
+                </Badge>
+              )}
+
+              <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                {product.name}
+              </h3>
+
+              <p class="text-lg text-gray-600 mb-6">
+                {product.description}
+              </p>
+
+              <!-- 特性列表 -->
+              <ul class="space-y-3 mb-8">
+                {product.features.map((feature) => (
+                  <li class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-gray-700">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <!-- CTA 按钮 -->
+              <div class="flex flex-col sm:flex-row gap-4">
+                <Button 
+                  variant="primary" 
+                  size="lg" 
+                  href={product.cta.href}
+                >
+                  {product.cta.text}
+                </Button>
+
+                {product.secondaryCTA && (
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    href={product.secondaryCTA.href}
+                  >
+                    {product.secondaryCTA.text}
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- 网格布局 -->
+    {layout === 'grid' && (
+      <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+        {products.map((product) => (
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <!-- 图片 -->
+            <div class="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600">
+              <img 
+                src={product.image} 
+                alt={product.name}
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+              {product.badge && (
+                <div class="absolute top-4 left-4">
+                  <Badge variant="primary" size="md" rounded="full">
+                    {product.badge}
+                  </Badge>
+                </div>
+              )}
+            </div>
+
+            <!-- 内容 -->
+            <div class="p-6 lg:p-8">
+              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3">
+                {product.name}
+              </h3>
+
+              <p class="text-gray-600 mb-4">
+                {product.description}
+              </p>
+
+              <!-- 特性列表 -->
+              <ul class="space-y-2 mb-6">
+                {product.features.slice(0, 3).map((feature) => (
+                  <li class="flex items-start gap-2 text-sm">
+                    <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-gray-700">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <!-- CTA 按钮 -->
+              <Button 
+                variant="primary" 
+                size="md" 
+                href={product.cta.href}
+                fullWidth
+              >
+                {product.cta.text}
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  /* 图片悬停效果 */
+  img {
+    transition: transform 0.3s ease;
+  }
+</style>

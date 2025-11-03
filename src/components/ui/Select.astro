@@ -1,0 +1,175 @@
+---
+/**
+ * 通用下拉选择组件
+ * 支持单选、分组选项、验证状态
+ */
+
+interface Option {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+interface OptionGroup {
+  label: string;
+  options: Option[];
+}
+
+interface Props {
+  name: string;
+  id?: string;
+  value?: string;
+  options?: Option[]; // 简单选项列表
+  groups?: OptionGroup[]; // 分组选项
+  placeholder?: string;
+  label?: string;
+  helperText?: string;
+  error?: string;
+  required?: boolean;
+  disabled?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
+  class?: string;
+}
+
+const {
+  name,
+  id = name,
+  value,
+  options = [],
+  groups = [],
+  placeholder,
+  label,
+  helperText,
+  error,
+  required = false,
+  disabled = false,
+  size = 'md',
+  fullWidth = false,
+  class: className = '',
+} = Astro.props;
+
+// 基础样式
+const baseStyles = 'border rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 appearance-none bg-white';
+
+// 状态样式
+const stateStyles = error
+  ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+  : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500';
+
+// 尺寸样式
+const sizeStyles = {
+  sm: 'px-3 py-1.5 pr-8 text-sm',
+  md: 'px-4 py-2 pr-10 text-base',
+  lg: 'px-5 py-3 pr-12 text-lg',
+};
+
+// 组合样式
+const selectClasses = [
+  baseStyles,
+  stateStyles,
+  sizeStyles[size],
+  fullWidth ? 'w-full' : '',
+  disabled ? 'bg-gray-100 cursor-not-allowed opacity-60' : '',
+  className,
+].filter(Boolean).join(' ');
+
+// 容器样式
+const containerClasses = fullWidth ? 'w-full' : '';
+
+// 检查是否使用分组
+const hasGroups = groups.length > 0;
+---
+
+<div class={containerClasses}>
+  {label && (
+    <label for={id} class="block text-sm font-medium text-gray-700 mb-1.5">
+      {label}
+      {required && <span class="text-red-500 ml-0.5">*</span>}
+    </label>
+  )}
+  
+  <div class="relative">
+    <select
+      name={name}
+      id={id}
+      required={required}
+      disabled={disabled}
+      class={selectClasses}
+      aria-invalid={error ? 'true' : 'false'}
+      aria-describedby={error ? `${id}-error` : helperText ? `${id}-helper` : undefined}
+    >
+      {placeholder && (
+        <option value="" disabled selected={!value}>
+          {placeholder}
+        </option>
+      )}
+      
+      {!hasGroups && options.map((option) => (
+        <option
+          value={option.value}
+          disabled={option.disabled}
+          selected={value === option.value}
+        >
+          {option.label}
+        </option>
+      ))}
+      
+      {hasGroups && groups.map((group) => (
+        <optgroup label={group.label}>
+          {group.options.map((option) => (
+            <option
+              value={option.value}
+              disabled={option.disabled}
+              selected={value === option.value}
+            >
+              {option.label}
+            </option>
+          ))}
+        </optgroup>
+      ))}
+    </select>
+    
+    <!-- 自定义下拉箭头 -->
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+      </svg>
+    </div>
+  </div>
+  
+  {error && (
+    <p id={`${id}-error`} class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+      <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+      </svg>
+      {error}
+    </p>
+  )}
+  
+  {!error && helperText && (
+    <p id={`${id}-helper`} class="mt-1.5 text-sm text-gray-500">
+      {helperText}
+    </p>
+  )}
+</div>
+
+<style>
+  /* 增强focus可见性 */
+  select:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  select[aria-invalid='true']:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  }
+  
+  /* 移除默认的下拉箭头（浏览器兼容） */
+  select {
+    background-image: none;
+  }
+  
+  select::-ms-expand {
+    display: none;
+  }
+</style>

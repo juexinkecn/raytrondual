@@ -1,0 +1,381 @@
+---
+/**
+ * Footer Component - 网站底部
+ * 
+ * 功能:
+ * - 多列链接布局
+ * - 联系信息
+ * - 社交媒体链接
+ * - Newsletter订阅
+ * - 认证徽章
+ * - 版权信息
+ * - 底部导航
+ */
+
+import { Icon } from 'astro-icon/components';
+import NewsletterForm from './NewsletterForm';
+
+interface Props {
+  lang: 'en' | 'cn';
+}
+
+const { lang } = Astro.props;
+
+// 获取当前域名前缀
+const siteUrl = lang === 'en' ? 'https://en.raytron.group' : 'https://cn.raytron.group';
+
+// Footer导航数据
+const footerData = {
+  en: {
+    company: {
+      title: 'Company',
+      links: [
+        { name: 'About Us', href: '/about/company' },
+        { name: 'Manufacturing', href: '/about/manufacturing' },
+        { name: 'Quality Control', href: '/about/quality' },
+        { name: 'Certifications', href: '/about/certifications' },
+        { name: 'Careers', href: '/careers' },
+      ],
+    },
+    products: {
+      title: 'Products',
+      links: [
+        { name: 'Copper Clad Aluminum', href: '/products/cca' },
+        { name: 'Nickel Clad Copper', href: '/products/ncc' },
+        { name: 'Silver Clad Copper', href: '/products/scc' },
+        { name: 'Copper Strip', href: '/products/copper/copper-strip' },
+        { name: 'All Products', href: '/products' },
+      ],
+    },
+    resources: {
+      title: 'Resources',
+      links: [
+        { name: 'Blog', href: '/blog' },
+        { name: 'White Papers', href: '/resources/whitepapers' },
+        { name: 'Case Studies', href: '/resources/case-studies' },
+        { name: 'FAQ', href: '/faq' },
+        { name: 'Downloads', href: '/resources/downloads' },
+      ],
+    },
+    support: {
+      title: 'Support',
+      links: [
+        { name: 'Contact Us', href: '/contact' },
+        { name: 'Request Quote', href: '/quote' },
+        { name: 'Request Sample', href: '/sample' },
+        { name: 'Technical Support', href: '/support' },
+        { name: 'Shipping Info', href: '/shipping' },
+      ],
+    },
+  },
+  cn: {
+    company: {
+      title: '公司信息',
+      links: [
+        { name: '关于我们', href: '/about/company' },
+        { name: '生产设施', href: '/about/manufacturing' },
+        { name: '质量控制', href: '/about/quality' },
+        { name: '认证证书', href: '/about/certifications' },
+        { name: '加入我们', href: '/careers' },
+      ],
+    },
+    products: {
+      title: '产品中心',
+      links: [
+        { name: '铜包铝系列', href: '/products/cca' },
+        { name: '镍包铜系列', href: '/products/ncc' },
+        { name: '银包铜系列', href: '/products/scc' },
+        { name: '铜带', href: '/products/copper/copper-strip' },
+        { name: '所有产品', href: '/products' },
+      ],
+    },
+    resources: {
+      title: '资源中心',
+      links: [
+        { name: '博客文章', href: '/blog' },
+        { name: '白皮书', href: '/resources/whitepapers' },
+        { name: '案例研究', href: '/resources/case-studies' },
+        { name: '常见问题', href: '/faq' },
+        { name: '资料下载', href: '/resources/downloads' },
+      ],
+    },
+    support: {
+      title: '客户支持',
+      links: [
+        { name: '联系我们', href: '/contact' },
+        { name: '获取报价', href: '/quote' },
+        { name: '申请样品', href: '/sample' },
+        { name: '技术支持', href: '/support' },
+        { name: '物流信息', href: '/shipping' },
+      ],
+    },
+  },
+};
+
+const footer = footerData[lang];
+
+// 联系信息
+const contactInfo = {
+  en: {
+    address: 'Raytron New Energy (Zhejiang) Co., Ltd.',
+    addressLine2: 'Zhejiang Province, China',
+    phone: '+86-xxx-xxxx-xxxx',
+    email: 'info@raytron.group',
+    salesEmail: 'sales@raytron.group',
+  },
+  cn: {
+    address: '锐创新能源(浙江)有限公司',
+    addressLine2: '浙江省，中国',
+    phone: '+86-xxx-xxxx-xxxx',
+    email: 'info@raytron.group',
+    salesEmail: 'sales@raytron.group',
+  },
+};
+
+const contact = contactInfo[lang];
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-gray-900 text-gray-300">
+  <!-- Main Footer Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+      
+      <!-- Company Info & Newsletter -->
+      <div class="lg:col-span-2">
+        <!-- Logo -->
+        <div class="mb-6">
+          <img
+            src="/images/logo-white.svg"
+            alt="RAYTRON Logo"
+            class="h-10 w-auto"
+            width="150"
+            height="40"
+          />
+        </div>
+
+        <!-- Company Description -->
+        <p class="text-sm mb-6 text-gray-400">
+          {lang === 'en' 
+            ? 'Leading manufacturer of high-precision metal flat wire and bimetal composite materials using advanced clad and weld technology.'
+            : '采用先进包覆焊接技术的高精度金属扁线和双金属复合材料领先制造商。'
+          }
+        </p>
+
+        <!-- Newsletter -->
+        <div class="mb-6">
+          <h3 class="text-white font-semibold mb-3">
+            {lang === 'en' ? 'Stay Updated' : '订阅资讯'}
+          </h3>
+          <NewsletterForm client:load lang={lang} />
+        </div>
+
+        <!-- Social Media -->
+        <div class="flex items-center space-x-4">
+          <a
+            href="https://linkedin.com/company/raytron"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary-600 transition-colors"
+            aria-label="LinkedIn"
+          >
+            <Icon name="lucide:linkedin" class="w-5 h-5" />
+          </a>
+          <a
+            href="https://twitter.com/raytron"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary-600 transition-colors"
+            aria-label="Twitter"
+          >
+            <Icon name="lucide:twitter" class="w-5 h-5" />
+          </a>
+          <a
+            href="https://facebook.com/raytron"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary-600 transition-colors"
+            aria-label="Facebook"
+          >
+            <Icon name="lucide:facebook" class="w-5 h-5" />
+          </a>
+          <a
+            href="https://youtube.com/raytron"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary-600 transition-colors"
+            aria-label="YouTube"
+          >
+            <Icon name="lucide:youtube" class="w-5 h-5" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer Links - 4 Columns -->
+      {Object.entries(footer).map(([key, section]) => (
+        <div>
+          <h3 class="text-white font-semibold mb-4">{section.title}</h3>
+          <ul class="space-y-3">
+            {section.links.map((link) => (
+              <li>
+                <a
+                  href={`${siteUrl}${link.href}`}
+                  class="text-sm hover:text-white transition-colors"
+                >
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <!-- Contact Info & Certifications -->
+    <div class="mt-12 pt-8 border-t border-gray-800">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Contact Information -->
+        <div>
+          <h3 class="text-white font-semibold mb-4">
+            {lang === 'en' ? 'Contact Information' : '联系方式'}
+          </h3>
+          <div class="space-y-3 text-sm">
+            <div class="flex items-start">
+              <Icon name="lucide:map-pin" class="w-5 h-5 mr-3 text-primary-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <p>{contact.address}</p>
+                <p class="text-gray-400">{contact.addressLine2}</p>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <Icon name="lucide:phone" class="w-5 h-5 mr-3 text-primary-400 flex-shrink-0" />
+              <a href={`tel:${contact.phone}`} class="hover:text-white transition-colors">
+                {contact.phone}
+              </a>
+            </div>
+            <div class="flex items-center">
+              <Icon name="lucide:mail" class="w-5 h-5 mr-3 text-primary-400 flex-shrink-0" />
+              <a href={`mailto:${contact.email}`} class="hover:text-white transition-colors">
+                {contact.email}
+              </a>
+            </div>
+            <div class="flex items-center">
+              <Icon name="lucide:shopping-cart" class="w-5 h-5 mr-3 text-primary-400 flex-shrink-0" />
+              <a href={`mailto:${contact.salesEmail}`} class="hover:text-white transition-colors">
+                {contact.salesEmail}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div>
+          <h3 class="text-white font-semibold mb-4">
+            {lang === 'en' ? 'Certifications' : '认证资质'}
+          </h3>
+          <div class="flex flex-wrap gap-4">
+            <img
+              src="/images/certifications/iso9001.svg"
+              alt="ISO 9001"
+              class="h-16 opacity-70 hover:opacity-100 transition-opacity"
+            />
+            <img
+              src="/images/certifications/iso14001.svg"
+              alt="ISO 14001"
+              class="h-16 opacity-70 hover:opacity-100 transition-opacity"
+            />
+            <img
+              src="/images/certifications/rohs.svg"
+              alt="RoHS"
+              class="h-16 opacity-70 hover:opacity-100 transition-opacity"
+            />
+            <img
+              src="/images/certifications/reach.svg"
+              alt="REACH"
+              class="h-16 opacity-70 hover:opacity-100 transition-opacity"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        
+        <!-- Copyright -->
+        <p class="text-sm text-gray-400">
+          © {currentYear} RAYTRON. {lang === 'en' ? 'All rights reserved.' : '版权所有。'}
+        </p>
+
+        <!-- Legal Links -->
+        <div class="flex items-center space-x-6 text-sm">
+          <a
+            href={`${siteUrl}/privacy`}
+            class="text-gray-400 hover:text-white transition-colors"
+          >
+            {lang === 'en' ? 'Privacy Policy' : '隐私政策'}
+          </a>
+          <a
+            href={`${siteUrl}/terms`}
+            class="text-gray-400 hover:text-white transition-colors"
+          >
+            {lang === 'en' ? 'Terms of Service' : '服务条款'}
+          </a>
+          <a
+            href={`${siteUrl}/sitemap.xml`}
+            class="text-gray-400 hover:text-white transition-colors"
+          >
+            {lang === 'en' ? 'Sitemap' : '网站地图'}
+          </a>
+        </div>
+      </div>
+
+      <!-- Back to Top Button -->
+      <button
+        id="back-to-top"
+        class="
+          fixed bottom-8 right-8 w-12 h-12 rounded-full
+          bg-primary-600 text-white shadow-lg
+          flex items-center justify-center
+          opacity-0 invisible transition-all duration-300
+          hover:bg-primary-700 hover:scale-110
+          focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+        "
+        aria-label={lang === 'en' ? 'Back to top' : '返回顶部'}
+      >
+        <Icon name="lucide:arrow-up" class="w-6 h-6" />
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Back to Top功能
+  const backToTopButton = document.getElementById('back-to-top');
+
+  if (backToTopButton) {
+    // 显示/隐藏按钮
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.remove('opacity-0', 'invisible');
+        backToTopButton.classList.add('opacity-100', 'visible');
+      } else {
+        backToTopButton.classList.add('opacity-0', 'invisible');
+        backToTopButton.classList.remove('opacity-100', 'visible');
+      }
+    });
+
+    // 点击返回顶部
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    });
+  }
+</script>
