@@ -1,0 +1,250 @@
+---
+// src/pages/faq.astro
+import FAQLayout from '../layouts/FAQLayout.astro';
+import FAQSearch from '../components/faq/FAQSearch.astro';
+import FAQList from '../components/faq/FAQList.astro';
+import CTASection from '../components/home/CTASection.astro';
+
+const pageTitle = 'Frequently Asked Questions - Raytron Flat Wire Solutions';
+const pageDescription = 'Find answers to common questions about our flat wire products, specifications, ordering process, quality standards, and technical support.';
+
+// FAQ数据（基于Raytron业务）
+const faqs = [
+  // 产品相关
+  {
+    id: 'faq-1',
+    category: 'Product',
+    question: 'What is the maximum width-to-thickness ratio you can achieve?',
+    questionZh: '你们能达到的最大宽厚比是多少？',
+    answer: 'We are the only manufacturer in China capable of producing flat wire with a width-to-thickness ratio of up to 100:1. Our advanced 4-high rolling mill technology enables us to achieve these ultra-thin, ultra-wide specifications while maintaining excellent dimensional accuracy and surface quality.',
+    answerZh: '我们是中国唯一能够生产宽厚比高达100:1扁线的制造商。我们先进的4连轧技术使我们能够实现这些超薄超宽规格，同时保持出色的尺寸精度和表面质量。',
+  },
+  {
+    id: 'faq-2',
+    category: 'Product',
+    question: 'What materials do you work with?',
+    questionZh: '你们可以加工哪些材料？',
+    answer: 'We specialize in copper (C11000, C10200), aluminum (1060, 1070, 1350), copper-aluminum bimetal, and specialty metals including silver, nickel, tantalum, niobium, and titanium. We can also provide various surface treatments including tin plating, silver plating, and enamel coating.',
+    answerZh: '我们专业加工铜材（C11000、C10200）、铝材（1060、1070、1350）、铜铝复合材料，以及特殊金属包括银、镍、钽、铌和钛。我们还可以提供各种表面处理，包括镀锡、镀银和漆包。',
+  },
+  {
+    id: 'faq-3',
+    category: 'Product',
+    question: 'Can you provide custom specifications?',
+    questionZh: '你们可以提供定制规格吗？',
+    answer: 'Yes, absolutely! We specialize in custom flat wire solutions. Our engineering team can work with your specific requirements for width, thickness, material, coating, and mechanical properties. We have extensive experience developing custom products for automotive, aerospace, medical, and industrial applications.',
+    answerZh: '是的，当然可以！我们专注于定制扁线解决方案。我们的工程团队可以根据您对宽度、厚度、材料、涂层和机械性能的具体要求进行合作。我们在为汽车、航空航天、医疗和工业应用开发定制产品方面拥有丰富的经验。',
+  },
+  
+  // 技术相关
+  {
+    id: 'faq-4',
+    category: 'Technical',
+    question: 'What tolerances can you maintain?',
+    questionZh: '你们能保持什么样的公差？',
+    answer: 'We maintain precision tolerances of ±0.01mm for both width and thickness. Our advanced measurement systems and quality control processes ensure consistent dimensional accuracy throughout production runs. Tighter tolerances can be achieved upon request for specific applications.',
+    answerZh: '我们对宽度和厚度都保持±0.01mm的精密公差。我们先进的测量系统和质量控制流程确保在整个生产过程中保持一致的尺寸精度。对于特定应用，可以根据要求实现更严格的公差。',
+  },
+  {
+    id: 'faq-5',
+    category: 'Technical',
+    question: 'What testing and certifications do you provide?',
+    questionZh: '你们提供什么测试和认证？',
+    answer: 'All our products undergo rigorous testing including dimensional inspection, conductivity testing, tensile strength testing, and surface quality inspection. We are ISO 9001:2015 certified and can provide material certificates, test reports, and compliance documentation for RoHS, REACH, and other international standards.',
+    answerZh: '我们所有产品都经过严格测试，包括尺寸检验、导电率测试、抗拉强度测试和表面质量检验。我们通过ISO 9001:2015认证，可以提供材料证书、测试报告以及RoHS、REACH和其他国际标准的合规文档。',
+  },
+  {
+    id: 'faq-6',
+    category: 'Technical',
+    question: 'Do you provide technical support for product selection?',
+    questionZh: '你们为产品选择提供技术支持吗？',
+    answer: 'Yes, our experienced application engineers are available to help you select the optimal flat wire solution for your specific application. We can provide technical consultation on material selection, dimensional requirements, coating options, and processing recommendations.',
+    answerZh: '是的，我们经验丰富的应用工程师可以帮助您为特定应用选择最佳的扁线解决方案。我们可以提供材料选择、尺寸要求、涂层选项和加工建议方面的技术咨询。',
+  },
+  
+  // 订购相关
+  {
+    id: 'faq-7',
+    category: 'Ordering',
+    question: 'What is the minimum order quantity?',
+    questionZh: '最小起订量是多少？',
+    answer: 'Our standard MOQ varies by product type and specifications. For standard products, the MOQ is typically 100kg. For custom specifications, MOQs may be higher depending on tooling and setup requirements. Please contact our sales team for specific MOQ information for your requirements.',
+    answerZh: '我们的标准起订量因产品类型和规格而异。对于标准产品，起订量通常为100kg。对于定制规格，根据模具和设置要求，起订量可能更高。请联系我们的销售团队了解您需求的具体起订量信息。',
+  },
+  {
+    id: 'faq-8',
+    category: 'Ordering',
+    question: 'How do I request a quote?',
+    questionZh: '如何申请报价？',
+    answer: 'You can request a quote through our online quote form, email us at info@raytron.co, or call us directly. Please provide details including material type, dimensions (width and thickness), quantity, application, and any special requirements. Our sales team will respond within 24 hours with a detailed quotation.',
+    answerZh: '您可以通过我们的在线报价表格申请报价，发送电子邮件至info@raytron.co，或直接致电我们。请提供包括材料类型、尺寸（宽度和厚度）、数量、应用和任何特殊要求的详细信息。我们的销售团队将在24小时内回复详细报价。',
+  },
+  {
+    id: 'faq-9',
+    category: 'Ordering',
+    question: 'Can I order samples before placing a bulk order?',
+    questionZh: '我可以在大批量订购之前订购样品吗？',
+    answer: 'Yes, we encourage customers to request samples for testing and evaluation. Sample costs and lead times vary depending on the product. Standard product samples may be provided free of charge, while custom specification samples may incur tooling costs. Contact us to discuss your sample requirements.',
+    answerZh: '是的，我们鼓励客户申请样品进行测试和评估。样品成本和交货时间因产品而异。标准产品样品可能免费提供，而定制规格样品可能产生模具费用。请联系我们讨论您的样品需求。',
+  },
+  
+  // 质量相关
+  {
+    id: 'faq-10',
+    category: 'Quality',
+    question: 'What quality control measures do you have in place?',
+    questionZh: '你们有哪些质量控制措施？',
+    answer: 'We implement comprehensive quality control at every stage: incoming material inspection, in-process monitoring, and final product inspection. Our QC lab is equipped with advanced testing equipment including micrometers, conductivity meters, tensile testers, and optical microscopes. We are ISO 9001:2015 certified and follow strict quality management protocols.',
+    answerZh: '我们在每个阶段实施全面的质量控制：来料检验、过程监控和成品检验。我们的质控实验室配备先进的测试设备，包括千分尺、导电率计、拉力试验机和光学显微镜。我们通过ISO 9001:2015认证并遵循严格的质量管理协议。',
+  },
+  {
+    id: 'faq-11',
+    category: 'Quality',
+    question: 'What is your defect rate?',
+    questionZh: '你们的缺陷率是多少？',
+    answer: 'We maintain an industry-leading defect rate of less than 0.1% (100 PPM). Our advanced manufacturing processes, rigorous quality control, and continuous improvement initiatives ensure consistently high product quality. Any defective products are covered by our quality guarantee.',
+    answerZh: '我们保持业界领先的缺陷率，低于0.1%（100 PPM）。我们先进的制造工艺、严格的质量控制和持续改进措施确保产品质量始终如一。任何缺陷产品都在我们的质量保证范围内。',
+  },
+  {
+    id: 'faq-12',
+    category: 'Quality',
+    question: 'Do you offer warranty on your products?',
+    questionZh: '你们的产品提供保修吗？',
+    answer: 'Yes, all our products come with a quality warranty. We guarantee that our products meet the specified technical requirements and are free from manufacturing defects. If any quality issues arise that are attributable to manufacturing, we will provide replacement or refund according to the terms of our quality guarantee.',
+    answerZh: '是的，我们所有产品都提供质量保证。我们保证产品符合指定的技术要求且无制造缺陷。如果出现任何归因于制造的质量问题，我们将根据质量保证条款提供更换或退款。',
+  },
+  
+  // 交付相关
+  {
+    id: 'faq-13',
+    category: 'Delivery',
+    question: 'What are your typical lead times?',
+    questionZh: '你们的典型交货时间是多少？',
+    answer: 'For standard products in stock, we can ship within 3-5 business days. For standard products requiring production, lead time is typically 2-3 weeks. Custom specifications may require 4-6 weeks depending on complexity and tooling requirements. Rush orders can be accommodated - please contact us for expedited service.',
+    answerZh: '对于库存标准产品，我们可以在3-5个工作日内发货。需要生产的标准产品，交货时间通常为2-3周。定制规格可能需要4-6周，具体取决于复杂性和模具要求。可以处理紧急订单 - 请联系我们获取加急服务。',
+  },
+  {
+    id: 'faq-14',
+    category: 'Delivery',
+    question: 'Do you ship internationally?',
+    questionZh: '你们国际发货吗？',
+    answer: 'Yes, we ship worldwide. We have extensive experience with international logistics and can arrange shipping via sea freight, air freight, or courier service depending on your requirements. We handle all necessary export documentation and can ship on DDP, CIF, or FOB terms.',
+    answerZh: '是的，我们全球发货。我们在国际物流方面经验丰富，可以根据您的要求安排海运、空运或快递服务。我们处理所有必要的出口文件，可以按DDP、CIF或FOB条款发货。',
+  },
+  {
+    id: 'faq-15',
+    category: 'Delivery',
+    question: 'How do you package your products?',
+    questionZh: '你们如何包装产品？',
+    answer: 'We use professional packaging designed to protect flat wire during transportation: products are wound on spools or packed in coils, wrapped in moisture-proof material, and secured in wooden boxes or cardboard cartons. Special packaging can be provided for sensitive applications or long-distance shipping. All packages are clearly labeled with product information and handling instructions.',
+    answerZh: '我们使用专业包装来保护扁线在运输过程中的安全：产品卷绕在线盘上或打包成卷，用防潮材料包裹，并固定在木箱或纸箱中。可以为敏感应用或长途运输提供特殊包装。所有包装都清楚地标注产品信息和处理说明。',
+  },
+  
+  // 定制相关
+  {
+    id: 'faq-16',
+    category: 'Customization',
+    question: 'Can you develop new alloys or coatings?',
+    questionZh: '你们可以开发新的合金或涂层吗？',
+    answer: 'Yes, we have strong R&D capabilities and can work with you to develop custom alloys, coatings, or surface treatments for specialized applications. Our material science team has experience with various metallurgical processes and can conduct trials and testing to meet your specific performance requirements.',
+    answerZh: '是的，我们拥有强大的研发能力，可以与您合作为专门应用开发定制合金、涂层或表面处理。我们的材料科学团队在各种冶金工艺方面经验丰富，可以进行试验和测试以满足您的特定性能要求。',
+  },
+  {
+    id: 'faq-17',
+    category: 'Customization',
+    question: 'Do you offer value-added services like cutting or slitting?',
+    questionZh: '你们提供切割或分条等增值服务吗？',
+    answer: 'Yes, we offer various value-added services including precision cutting to length, slitting to specific widths, punching, forming, and custom packaging. These services can help reduce your processing time and costs. Please discuss your requirements with our sales team.',
+    answerZh: '是的，我们提供各种增值服务，包括精密定长切割、分条至特定宽度、冲孔、成型和定制包装。这些服务可以帮助您减少加工时间和成本。请与我们的销售团队讨论您的需求。',
+  },
+  {
+    id: 'faq-18',
+    category: 'Customization',
+    question: 'How long does it take to develop a custom product?',
+    questionZh: '开发定制产品需要多长时间？',
+    answer: 'Development timeline varies based on complexity. Simple dimensional or coating modifications may take 2-3 weeks. New alloy development or complex geometries may require 6-12 weeks including tooling, trials, and testing. We work closely with customers throughout the development process to ensure requirements are met.',
+    answerZh: '开发时间因复杂性而异。简单的尺寸或涂层修改可能需要2-3周。新合金开发或复杂几何形状可能需要6-12周，包括模具制作、试验和测试。我们在整个开发过程中与客户密切合作，以确保满足要求。',
+  },
+  
+  // 支持相关
+  {
+    id: 'faq-19',
+    category: 'Support',
+    question: 'What after-sales support do you provide?',
+    questionZh: '你们提供什么售后支持？',
+    answer: 'We provide comprehensive after-sales support including technical consultation, application guidance, troubleshooting assistance, and quality issue resolution. Our technical team is available via phone, email, or video conference. We also offer on-site support for major customers and complex applications.',
+    answerZh: '我们提供全面的售后支持，包括技术咨询、应用指导、故障排除协助和质量问题解决。我们的技术团队可通过电话、电子邮件或视频会议提供服务。我们还为主要客户和复杂应用提供现场支持。',
+  },
+  {
+    id: 'faq-20',
+    category: 'Support',
+    question: 'Can you provide material safety data sheets (MSDS)?',
+    questionZh: '你们可以提供材料安全数据表（MSDS）吗？',
+    answer: 'Yes, we provide MSDS/SDS for all our products. These documents detail the chemical composition, physical and chemical properties, health hazards, safe handling procedures, and emergency measures. MSDS documents are available in multiple languages and can be downloaded from our website or provided upon request.',
+    answerZh: '是的，我们为所有产品提供MSDS/SDS。这些文件详细说明化学成分、物理和化学性质、健康危害、安全处理程序和应急措施。MSDS文件有多种语言版本，可从我们的网站下载或应要求提供。',
+  },
+];
+---
+
+<FAQLayout 
+  title={pageTitle}
+  description={pageDescription}
+  lang="en"
+>
+  {/* Page Header */}
+  <section class="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">
+          Frequently Asked Questions
+        </h1>
+        <p class="text-xl text-blue-100">
+          Find answers to common questions about our flat wire products and services
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* Search Section */}
+  <section class="py-8 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <FAQSearch lang="en" />
+    </div>
+  </section>
+
+  {/* FAQ List */}
+  <section class="py-12">
+    <div class="container mx-auto px-4">
+      <FAQList faqs={faqs} lang="en" />
+    </div>
+  </section>
+
+  {/* Still Have Questions */}
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">
+        Still Have Questions?
+      </h2>
+      <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        Our team is here to help. Contact us for personalized assistance with your flat wire requirements.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a 
+          href="/contact" 
+          class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+        >
+          Contact Us
+        </a>
+        <a 
+          href="mailto:info@raytron.co" 
+          class="bg-white text-blue-600 border-2 border-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+        >
+          Email Us
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* CTA Section */}
+  <CTASection lang="en" />
+</FAQLayout>

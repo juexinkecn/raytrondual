@@ -1,0 +1,403 @@
+---
+// src/components/home/WhyChooseUs.astro
+import Badge from '../ui/Badge.astro';
+import type { Language } from '../../types/language';
+
+interface Props {
+  lang?: Language;
+}
+
+const { lang = 'en' } = Astro.props;
+
+// 统计数据
+const stats = {
+  en: [
+    {
+      value: '2012',
+      label: 'Established',
+      description: 'Over a decade of expertise',
+      icon: '🏭',
+    },
+    {
+      value: '19,000',
+      unit: 'tons',
+      label: 'Annual Capacity',
+      description: '13 production lines',
+      icon: '⚡',
+    },
+    {
+      value: '100:1',
+      label: 'Width-to-Thickness Ratio',
+      description: 'Industry-leading precision',
+      icon: '📏',
+    },
+    {
+      value: '500+',
+      label: 'Global Clients',
+      description: 'Trusted worldwide',
+      icon: '🌍',
+    },
+    {
+      value: '99.5%',
+      label: 'Quality Pass Rate',
+      description: 'ISO 9001 certified',
+      icon: '✓',
+    },
+    {
+      value: '24/7',
+      label: 'Technical Support',
+      description: 'Always here to help',
+      icon: '💬',
+    },
+  ],
+  zh: [
+    {
+      value: '2012',
+      label: '成立年份',
+      description: '超过十年行业经验',
+      icon: '🏭',
+    },
+    {
+      value: '19,000',
+      unit: '吨',
+      label: '年产能',
+      description: '13条生产线',
+      icon: '⚡',
+    },
+    {
+      value: '100:1',
+      label: '宽厚比',
+      description: '行业领先精度',
+      icon: '📏',
+    },
+    {
+      value: '500+',
+      label: '全球客户',
+      description: '全球信赖',
+      icon: '🌍',
+    },
+    {
+      value: '99.5%',
+      label: '质量合格率',
+      description: 'ISO 9001认证',
+      icon: '✓',
+    },
+    {
+      value: '24/7',
+      label: '技术支持',
+      description: '随时为您服务',
+      icon: '💬',
+    },
+  ],
+};
+
+// 认证与荣誉
+const certifications = {
+  en: [
+    {
+      name: 'ISO 9001:2015',
+      description: 'Quality Management System',
+      icon: '🏆',
+    },
+    {
+      name: 'National High-Tech Enterprise',
+      description: 'Ministry of Science & Technology',
+      icon: '🎖️',
+    },
+    {
+      name: 'National Standard Setter',
+      description: 'Industry standards development',
+      icon: '📜',
+    },
+    {
+      name: 'Patent Portfolio',
+      description: '50+ patents and innovations',
+      icon: '💡',
+    },
+  ],
+  zh: [
+    {
+      name: 'ISO 9001:2015',
+      description: '质量管理体系认证',
+      icon: '🏆',
+    },
+    {
+      name: '国家高新技术企业',
+      description: '科技部认定',
+      icon: '🎖️',
+    },
+    {
+      name: '国家标准制定单位',
+      description: '参与行业标准制定',
+      icon: '📜',
+    },
+    {
+      name: '专利组合',
+      description: '50+项专利与创新',
+      icon: '💡',
+    },
+  ],
+};
+
+// 核心优势
+const advantages = {
+  en: [
+    {
+      title: 'Unique Technology',
+      description: 'Only manufacturer in China capable of producing flat wire with 100:1 width-to-thickness ratio.',
+      icon: '🔬',
+      gradient: 'from-blue-500 to-cyan-500',
+    },
+    {
+      title: 'Full Material Range',
+      description: 'Copper, aluminum, bimetal, specialty alloys - we process them all with precision.',
+      icon: '🎯',
+      gradient: 'from-purple-500 to-pink-500',
+    },
+    {
+      title: 'Custom Solutions',
+      description: 'From R&D to mass production, we tailor solutions to your exact specifications.',
+      icon: '⚙️',
+      gradient: 'from-green-500 to-teal-500',
+    },
+    {
+      title: 'Global Reach',
+      description: 'Serving customers in 30+ countries with timely delivery and consistent quality.',
+      icon: '🌏',
+      gradient: 'from-orange-500 to-red-500',
+    },
+  ],
+  zh: [
+    {
+      title: '独特技术',
+      description: '中国唯一能够生产宽厚比100:1扁线的制造商。',
+      icon: '🔬',
+      gradient: 'from-blue-500 to-cyan-500',
+    },
+    {
+      title: '全材料覆盖',
+      description: '铜、铝、双金属、特殊合金 - 精密加工各类材料。',
+      icon: '🎯',
+      gradient: 'from-purple-500 to-pink-500',
+    },
+    {
+      title: '定制方案',
+      description: '从研发到量产，为您量身定制精确规格的解决方案。',
+      icon: '⚙️',
+      gradient: 'from-green-500 to-teal-500',
+    },
+    {
+      title: '全球服务',
+      description: '服务30+国家客户，保证及时交付和稳定质量。',
+      icon: '🌏',
+      gradient: 'from-orange-500 to-red-500',
+    },
+  ],
+};
+
+const content = {
+  en: {
+    sectionTitle: 'Why Choose Raytron',
+    sectionSubtitle: 'The Precision You Need, The Partner You Trust',
+    description: 'With over a decade of expertise and cutting-edge technology, we deliver high-precision flat wire and ribbon solutions that power innovation across industries.',
+    statsTitle: 'Our Track Record',
+    certificationsTitle: 'Certifications & Honors',
+    advantagesTitle: 'Our Competitive Advantages',
+  },
+  zh: {
+    sectionTitle: '为什么选择锐创',
+    sectionSubtitle: '您需要的精度，您信赖的伙伴',
+    description: '凭借超过十年的专业经验和尖端技术，我们提供高精度扁线和带材解决方案，为各行业创新赋能。',
+    statsTitle: '我们的业绩',
+    certificationsTitle: '认证与荣誉',
+    advantagesTitle: '我们的竞争优势',
+  },
+};
+
+const t = content[lang];
+const statsData = stats[lang];
+const certsData = certifications[lang];
+const advsData = advantages[lang];
+---
+
+<section class="py-16 sm:py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <Badge variant="primary" size="lg" class="mb-4">
+        {t.sectionTitle}
+      </Badge>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+        {t.sectionSubtitle}
+      </h2>
+      <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+        {t.description}
+      </p>
+    </div>
+
+    <!-- Statistics Grid -->
+    <div class="mb-20">
+      <h3 class="text-2xl font-bold text-gray-900 text-center mb-8">
+        {t.statsTitle}
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        {statsData.map((stat, index) => (
+          <div 
+            class="text-center p-6 bg-gradient-to-br from-gray-50 to-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 group"
+            style={`animation-delay: ${index * 0.1}s`}
+          >
+            <!-- Icon -->
+            <div class="text-4xl mb-3 transform group-hover:scale-110 transition-transform duration-300">
+              {stat.icon}
+            </div>
+            
+            <!-- Value -->
+            <div class="text-3xl font-bold text-gray-900 mb-1">
+              {stat.value}
+              {stat.unit && (
+                <span class="text-xl font-normal text-gray-600 ml-1">
+                  {stat.unit}
+                </span>
+              )}
+            </div>
+            
+            <!-- Label -->
+            <div class="text-sm font-semibold text-gray-700 mb-2">
+              {stat.label}
+            </div>
+            
+            <!-- Description -->
+            <div class="text-xs text-gray-500">
+              {stat.description}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Certifications -->
+    <div class="mb-20">
+      <h3 class="text-2xl font-bold text-gray-900 text-center mb-8">
+        {t.certificationsTitle}
+      </h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {certsData.map((cert) => (
+          <div class="flex items-start gap-4 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100 hover:border-blue-300 hover:shadow-lg transition-all duration-300">
+            <!-- Icon -->
+            <div class="text-3xl flex-shrink-0">
+              {cert.icon}
+            </div>
+            
+            <!-- Content -->
+            <div>
+              <h4 class="font-bold text-gray-900 mb-1">
+                {cert.name}
+              </h4>
+              <p class="text-sm text-gray-600">
+                {cert.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Competitive Advantages -->
+    <div>
+      <h3 class="text-2xl font-bold text-gray-900 text-center mb-8">
+        {t.advantagesTitle}
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {advsData.map((advantage) => (
+          <div class="group relative overflow-hidden rounded-2xl bg-white border border-gray-200 hover:border-transparent hover:shadow-2xl transition-all duration-300">
+            <!-- Gradient Background -->
+            <div class={`absolute inset-0 bg-gradient-to-br ${advantage.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+            
+            <!-- Content -->
+            <div class="relative z-10 p-8">
+              <!-- Icon -->
+              <div class="text-5xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                {advantage.icon}
+              </div>
+              
+              <!-- Title -->
+              <h4 class="text-xl font-bold text-gray-900 mb-3">
+                {advantage.title}
+              </h4>
+              
+              <!-- Description -->
+              <p class="text-gray-600 leading-relaxed">
+                {advantage.description}
+              </p>
+            </div>
+
+            <!-- Decorative Corner -->
+            <div class={`absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-br ${advantage.gradient} rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-300`} />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom CTA Banner -->
+    <div class="mt-16 p-8 sm:p-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white text-center">
+      <h3 class="text-2xl sm:text-3xl font-bold mb-4">
+        {lang === 'en' ? 'Ready to Experience the Raytron Difference?' : '准备好体验锐创的不同之处了吗？'}
+      </h3>
+      <p class="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
+        {lang === 'en' 
+          ? 'Join hundreds of satisfied customers who trust us for their precision flat wire and ribbon needs.'
+          : '加入数百家信赖我们精密扁线和带材产品的满意客户。'
+        }
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href={lang === 'zh' ? '/zh/contact' : '/contact'}
+          class="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+        >
+          {lang === 'en' ? 'Contact Us Today' : '立即联系我们'}
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+        <a
+          href={lang === 'zh' ? '/zh/products' : '/products'}
+          class="inline-flex items-center justify-center px-8 py-4 bg-transparent text-white font-semibold border-2 border-white rounded-lg hover:bg-white hover:text-blue-600 transition-colors"
+        >
+          {lang === 'en' ? 'Browse Products' : '浏览产品'}
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* 统计卡片动画 */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .grid > div {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  /* 响应式优化 */
+  @media (max-width: 640px) {
+    .grid {
+      gap: 1rem;
+    }
+    
+    .text-3xl {
+      font-size: 1.5rem;
+    }
+  }
+</style>

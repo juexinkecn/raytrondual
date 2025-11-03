@@ -1,0 +1,122 @@
+---
+/**
+ * 通用按钮组件
+ * 支持多种样式变体、尺寸和状态
+ */
+
+interface Props {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  fullWidth?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+  href?: string;
+  target?: '_blank' | '_self';
+  type?: 'button' | 'submit' | 'reset';
+  icon?: string; // 图标类名或SVG
+  iconPosition?: 'left' | 'right';
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  fullWidth = false,
+  disabled = false,
+  loading = false,
+  href,
+  target,
+  type = 'button',
+  icon,
+  iconPosition = 'left',
+  class: className = '',
+} = Astro.props;
+
+// 基础样式
+const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+
+// 变体样式
+const variantStyles = {
+  primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm hover:shadow-md',
+  secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500 shadow-sm hover:shadow-md',
+  outline: 'border-2 border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500',
+  ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
+  danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-sm hover:shadow-md',
+};
+
+// 尺寸样式
+const sizeStyles = {
+  sm: 'px-3 py-1.5 text-sm',
+  md: 'px-4 py-2 text-base',
+  lg: 'px-6 py-3 text-lg',
+  xl: 'px-8 py-4 text-xl',
+};
+
+// 组合所有样式
+const buttonClasses = [
+  baseStyles,
+  variantStyles[variant],
+  sizeStyles[size],
+  fullWidth ? 'w-full' : '',
+  className,
+].filter(Boolean).join(' ');
+
+// 加载动画SVG
+const loadingSpinner = `
+  <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+`;
+
+// 渲染按钮或链接
+const Tag = href ? 'a' : 'button';
+const linkProps = href ? { href, target, rel: target === '_blank' ? 'noopener noreferrer' : undefined } : {};
+const buttonProps = !href ? { type, disabled: disabled || loading } : {};
+---
+
+<Tag
+  class={buttonClasses}
+  {...linkProps}
+  {...buttonProps}
+>
+  {loading && (
+    <span set:html={loadingSpinner} />
+  )}
+  
+  {!loading && icon && iconPosition === 'left' && (
+    <span set:html={icon} />
+  )}
+  
+  <slot />
+  
+  {!loading && icon && iconPosition === 'right' && (
+    <span set:html={icon} />
+  )}
+</Tag>
+
+<style>
+  /* 额外的动画效果 */
+  a, button {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  a::before, button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  
+  a:active::before, button:active::before {
+    width: 300px;
+    height: 300px;
+  }
+</style>

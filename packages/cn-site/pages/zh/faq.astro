@@ -1,0 +1,648 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// FAQ数据
+const faqCategories = [
+  {
+    id: 'general',
+    name: '一般问题',
+    icon: '💬',
+    faqs: [
+      {
+        question: '你们生产什么产品？',
+        answer: '我们专注于铜、铝、铜包铝等有色金属扁线/扁带的研发、生产和销售。主要产品包括光伏汇流带(PV Ribbon)、漆包扁线、电池连接片、电缆屏蔽材料等。我们的产品广泛应用于光伏、汽车、航空航天、医学工程、电缆等行业。',
+      },
+      {
+        question: '你们的公司成立多久了？',
+        answer: '锐创新能源成立于2012年，专注于扁线压延已有13年历史。经过十多年的发展，我们已成为中国最专业的高精度扁线制造商，也是中国唯一能够生产宽厚比超过140倍压延扁线的企业。',
+      },
+      {
+        question: '你们有哪些资质认证？',
+        answer: '我们是国家级高新技术企业，也是国家标准制定单位。工厂通过ISO9001质量管理体系认证，2023年被评为"浙江省科技型中小企业"。我们拥有28项扁线相关专利，包括圆线轧扁技术的发明专利。',
+      },
+    ],
+  },
+  {
+    id: 'product',
+    name: '产品相关',
+    icon: '📦',
+    faqs: [
+      {
+        question: '你们能生产什么材质的扁线？',
+        answer: '我们主要专注于铜、铝、铜包铝(CCA)、铜包钢(CCS)等有色金属扁线。如果您需要其他特殊金属扁线，欢迎联系我们咨询。',
+      },
+      {
+        question: '你们的扁线宽厚比能达到多少？',
+        answer: '我们是中国唯一能够生产宽厚比超过140倍的企业。常规产品的宽厚比可达100倍以上。高宽厚比的扁线具有更好的柔韧性和空间利用率。',
+      },
+      {
+        question: '你们的扁线边缘处理方式是什么？',
+        answer: '我们采用专利的圆线轧扁技术，产品具有自然圆边，无任何毛刺。这是我们的核心技术优势。我们也可以根据客户需求提供方边、自然圆边、全圆边等不同边缘处理。',
+      },
+      {
+        question: '你们能提供什么样的表面处理？',
+        answer: '我们可以提供多种表面处理，包括：裸铜、热镀锡、漆包、镀镍等。具体取决于产品应用和客户需求。',
+      },
+      {
+        question: '你们的尺寸精度如何？',
+        answer: '我们的尺寸公差可以控制在±0.01mm以内，配备在线工艺控制系统，确保产品尺寸的一致性和精度。',
+      },
+    ],
+  },
+  {
+    id: 'order',
+    name: '订购流程',
+    icon: '🛒',
+    faqs: [
+      {
+        question: '最小起订量(MOQ)是多少？',
+        answer: '我们的常规产品MOQ为200公斤起。我们也接受来料加工订单，即客户提供圆线，我们加工成扁线。灵活的起订量使我们能够服务从初创企业到大型企业的各类客户。',
+      },
+      {
+        question: '交货周期是多久？',
+        answer: '常规产品的交货期为2-7天。定制产品根据具体规格和数量，一般为7-15天。我们拥有13条高精度4连轧机，年产能19,000吨，能够确保快速交付。',
+      },
+      {
+        question: '如何获取报价？',
+        answer: '请通过我们的联系页面提交咨询，或直接发送邮件至sales@ray-tron.com。请提供以下信息：1) 所需材质（铜/铝/铜包铝等）2) 规格尺寸（宽度×厚度）3) 表面处理要求 4) 数量 5) 应用领域。我们会在24小时内回复您的询价。',
+      },
+      {
+        question: '你们支持样品订购吗？',
+        answer: '是的，我们支持样品订购。样品费用根据产品规格而定。如果后续确认批量订单，样品费用可以抵扣。样品交货期通常为3-5天。',
+      },
+      {
+        question: '你们支持哪些付款方式？',
+        answer: '我们接受电汇(T/T)、信用证(L/C)等国际通用付款方式。具体付款条款可以根据订单金额和合作情况协商确定。',
+      },
+    ],
+  },
+  {
+    id: 'technical',
+    name: '技术问题',
+    icon: '🔧',
+    faqs: [
+      {
+        question: '什么是圆线轧扁技术？',
+        answer: '圆线轧扁技术是我们的专利技术，将圆形线材通过多道次轧制工艺压制成扁线。这种技术的优势在于：1) 产品具有自然圆边，无毛刺 2) 可以达到很高的宽厚比 3) 材料利用率高 4) 产品质量稳定。我们是这项技术的开创者和专利持有人。',
+      },
+      {
+        question: '为什么要使用扁线而不是圆线？',
+        answer: '扁线相比圆线有几个优势：1) 更好的空间利用率，同样空间可以通过更大电流 2) 更好的散热性能 3) 更容易焊接和连接 4) 在某些应用中可以减轻重量 5) 更好的机械性能。具体应用需求可以联系我们的技术团队咨询。',
+      },
+      {
+        question: '如何选择合适的扁线规格？',
+        answer: '扁线规格的选择取决于您的具体应用。主要考虑因素包括：1) 电流负载要求 2) 安装空间限制 3) 机械强度需求 4) 重量限制 5) 成本预算。我们的技术团队可以根据您的应用需求，为您推荐最合适的规格和材质。',
+      },
+      {
+        question: '你们能提供定制化解决方案吗？',
+        answer: '是的！我们专注于为客户提供定制化扁线解决方案。无论是特殊规格、特殊材质、特殊表面处理，还是复杂的应用需求，我们的技术团队都会与您密切合作，开发最适合您应用的产品。',
+      },
+    ],
+  },
+  {
+    id: 'quality',
+    name: '质量与服务',
+    icon: '⭐',
+    faqs: [
+      {
+        question: '你们如何保证产品质量？',
+        answer: '我们通过以下方式确保产品质量：1) ISO9001认证的质量管理体系 2) 在线工艺控制系统，100%产品检测 3) 严格的原材料选择 4) 经验丰富的技术团队 5) 先进的生产设备。作为国家标准制定单位，我们对质量的要求远超行业标准。',
+      },
+      {
+        question: '产品有质保吗？',
+        answer: '我们对产品质量提供保证。如果产品存在质量问题（非运输或使用不当造成），我们提供退换货服务。具体质保条款会在合同中明确说明。',
+      },
+      {
+        question: '你们有技术支持吗？',
+        answer: '是的，我们有专业的技术团队为客户提供全方位的技术支持，包括：1) 产品选型建议 2) 应用技术咨询 3) 问题排查与解决 4) 定制化开发 5) 现场技术服务（大客户）。',
+      },
+      {
+        question: '你们的售后服务如何？',
+        answer: '我们深知持续为客户创造价值是我们生存的唯一途径。从您第一次联系我们开始，您的问题都会由我们专门处理。我们重视每一个客户反馈，并将其转化为持续改进的里程碑。工作时间内，我们通常会在2小时内回复客户咨询。',
+      },
+    ],
+  },
+  {
+    id: 'shipping',
+    name: '物流配送',
+    icon: '🚚',
+    faqs: [
+      {
+        question: '你们的产品能发往哪些地区？',
+        answer: '我们的产品已出口到20多个国家和地区，包括欧洲、北美、中东、东南亚等。在土耳其设有销售办事处，服务欧洲和中东市场。国内可发往全国各地。',
+      },
+      {
+        question: '运费如何计算？',
+        answer: '运费根据产品数量、目的地和运输方式计算。具体运费会在报价时说明。对于大批量订单，运费通常可以协商。',
+      },
+      {
+        question: '你们使用什么包装？',
+        answer: '我们使用专业的包装确保产品在运输过程中不受损：1) 内层使用防潮纸或塑料膜包裹 2) 外层使用木箱或纸箱包装 3) 必要时使用钢带加固 4) 所有包装符合国际运输标准。特殊包装需求可以协商。',
+      },
+    ],
+  },
+];
+---
+
+<Layout title="常见问题 - 锐创新能源">
+  <div class="faq-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <h1 class="hero-title">常见问题</h1>
+        <p class="hero-subtitle">找到您需要的答案</p>
+      </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+      <div class="container">
+        <div class="search-box">
+          <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input
+            type="text"
+            id="faqSearch"
+            placeholder="搜索问题或关键词..."
+            class="search-input"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Tabs -->
+    <section class="categories-section">
+      <div class="container">
+        <div class="category-tabs">
+          {faqCategories.map((category, index) => (
+            <button
+              class:list={['category-tab', { active: index === 0 }]}
+              data-category={category.id}
+            >
+              <span class="category-icon">{category.icon}</span>
+              <span>{category.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="faq-content">
+      <div class="container">
+        {faqCategories.map((category, catIndex) => (
+          <div
+            class:list={['faq-category', { active: catIndex === 0 }]}
+            data-category-content={category.id}
+          >
+            <h2 class="category-title">
+              <span class="category-icon">{category.icon}</span>
+              {category.name}
+            </h2>
+            <div class="faq-list">
+              {category.faqs.map((faq, faqIndex) => (
+                <div class="faq-item" data-faq-text={`${faq.question} ${faq.answer}`.toLowerCase()}>
+                  <button class="faq-question">
+                    <span>{faq.question}</span>
+                    <svg class="faq-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                  <div class="faq-answer">
+                    <p>{faq.answer}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div id="noResults" class="no-results" style="display: none;">
+          <div class="no-results-icon">🔍</div>
+          <h3>未找到匹配的问题</h3>
+          <p>请尝试其他搜索词或浏览不同的分类</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact CTA -->
+    <section class="contact-cta">
+      <div class="container">
+        <div class="cta-content">
+          <h2>没有找到您需要的答案？</h2>
+          <p>我们的专业团队随时为您提供帮助</p>
+          <div class="cta-buttons">
+            <a href="/contact" class="btn btn-primary">联系我们</a>
+            <a href="mailto:sales@ray-tron.com" class="btn btn-secondary">发送邮件</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .faq-page {
+      background: #f8f9fa;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.95;
+    }
+
+    /* Search Section */
+    .search-section {
+      background: white;
+      padding: 40px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .search-box {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a0aec0;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 18px 20px 18px 60px;
+      border: 2px solid #e2e8f0;
+      border-radius: 50px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    /* Categories */
+    .categories-section {
+      background: white;
+      padding: 30px 0;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .category-tab {
+      padding: 12px 24px;
+      border: 2px solid #e2e8f0;
+      background: white;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #4a5568;
+    }
+
+    .category-tab:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    .category-tab.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-color: transparent;
+      color: white;
+    }
+
+    .category-icon {
+      font-size: 1.3rem;
+    }
+
+    /* FAQ Content */
+    .faq-content {
+      padding: 60px 0;
+    }
+
+    .faq-category {
+      display: none;
+    }
+
+    .faq-category.active {
+      display: block;
+    }
+
+    .category-title {
+      font-size: 2rem;
+      color: #2d3748;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      overflow: hidden;
+      transition: box-shadow 0.3s;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 25px 30px;
+      background: none;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-align: left;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2d3748;
+      transition: color 0.3s;
+    }
+
+    .faq-question:hover {
+      color: #667eea;
+    }
+
+    .faq-icon {
+      flex-shrink: 0;
+      transition: transform 0.3s;
+      color: #667eea;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+      padding: 0 30px 25px 30px;
+    }
+
+    .faq-answer p {
+      color: #4a5568;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    /* No Results */
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .no-results-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .no-results h3 {
+      font-size: 1.5rem;
+      color: #2d3748;
+      margin-bottom: 0.5rem;
+    }
+
+    .no-results p {
+      color: #718096;
+    }
+
+    /* Contact CTA */
+    .contact-cta {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .cta-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 15px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: white;
+      color: #667eea;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: #667eea;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .category-tabs {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 10px;
+      }
+
+      .category-tab {
+        white-space: nowrap;
+      }
+
+      .faq-question {
+        font-size: 1rem;
+        padding: 20px;
+      }
+
+      .faq-item.active .faq-answer {
+        padding: 0 20px 20px 20px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+
+  <script>
+    // FAQ 交互功能
+    const faqItems = document.querySelectorAll('.faq-item');
+    const categoryTabs = document.querySelectorAll('.category-tab');
+    const faqCategories = document.querySelectorAll('.faq-category');
+    const searchInput = document.getElementById('faqSearch');
+    const noResults = document.getElementById('noResults');
+
+    // 点击展开/收起FAQ
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      question?.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        
+        // 关闭所有其他的FAQ
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item) {
+            otherItem.classList.remove('active');
+          }
+        });
+        
+        // 切换当前FAQ
+        item.classList.toggle('active', !isActive);
+      });
+    });
+
+    // 分类切换
+    categoryTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const categoryId = tab.dataset.category;
+        
+        // 更新标签样式
+        categoryTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // 更新内容显示
+        faqCategories.forEach(cat => {
+          cat.classList.remove('active');
+          if (cat.dataset.categoryContent === categoryId) {
+            cat.classList.add('active');
+          }
+        });
+        
+        // 清空搜索
+        if (searchInput) {
+          searchInput.value = '';
+        }
+        
+        // 重置FAQ项显示
+        faqItems.forEach(item => {
+          item.style.display = 'block';
+        });
+        
+        noResults.style.display = 'none';
+      });
+    });
+
+    // 搜索功能
+    searchInput?.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+      let visibleCount = 0;
+      
+      if (searchTerm === '') {
+        // 如果搜索为空，显示当前激活分类的所有FAQ
+        const activeCategory = document.querySelector('.faq-category.active');
+        faqItems.forEach(item => {
+          if (activeCategory?.contains(item)) {
+            item.style.display = 'block';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      } else {
+        // 在所有FAQ中搜索
+        faqCategories.forEach(cat => cat.classList.add('active'));
+        
+        faqItems.forEach(item => {
+          const text = item.dataset.faqText || '';
+          if (text.includes(searchTerm)) {
+            item.style.display = 'block';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      }
+      
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    });
+  </script>
+</Layout>

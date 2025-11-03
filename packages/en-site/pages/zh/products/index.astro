@@ -1,0 +1,644 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+
+// 实际产品数据 - 基于Raytron真实产品
+const products = [
+  {
+    id: 1,
+    slug: 'pv-ribbon',
+    name: '光伏汇流带 (PV Ribbon)',
+    category: 'solar',
+    description: '热镀锡铜扁线导体，用于收集光伏电池产生的电流，连接太阳能电池单元并将电流传输至配电系统',
+    image: '/images/products/pv-ribbon.jpg',
+    features: ['高延展性=高可靠性', '最小化弧度，避免缠结', '保持屈服强度稳定', '超低屈服强度<110MPa'],
+    price: '询价',
+    inStock: true,
+    tag: '热销产品',
+  },
+  {
+    id: 2,
+    slug: 'copper-flat-wire',
+    name: '铜扁线/铜带',
+    category: 'copper',
+    description: '采用专利圆线轧扁技术生产的高精度铜扁线，具有自然圆边无毛刺特性',
+    image: '/images/products/copper-wire.jpg',
+    features: ['宽厚比>140倍', '自然圆边无毛刺', '高尺寸精度', '可定制各种规格'],
+    price: '询价',
+    inStock: true,
+    tag: '核心产品',
+  },
+  {
+    id: 3,
+    slug: 'aluminum-flat-wire',
+    name: '铝扁线/铝带',
+    category: 'aluminum',
+    description: '轻质高导电的铝扁线产品，适用于多种工业应用',
+    image: '/images/products/aluminum-wire.jpg',
+    features: ['轻量化设计', '良好导电性', '成本效益高', '多种厚度可选'],
+    price: '询价',
+    inStock: true,
+  },
+  {
+    id: 4,
+    slug: 'cca-flat-wire',
+    name: '铜包铝扁线 (CCA)',
+    category: 'bimetal',
+    description: '结合铜的导电性和铝的轻量优势的双金属扁线',
+    image: '/images/products/cca-wire.jpg',
+    features: ['60%IACS导电率', '重量减轻30-40%', '成本节约', '优异的焊接性能'],
+    price: '询价',
+    inStock: true,
+  },
+  {
+    id: 5,
+    slug: 'enameled-flat-wire',
+    name: '漆包扁线',
+    category: 'coated',
+    description: '广泛应用于通讯设备、变压器、电机和发电机绕组的漆包铜扁线',
+    image: '/images/products/enameled-wire.jpg',
+    features: ['无氧铜(≥100%IACS)', '方边/自然圆边/全圆边可选', '优异绝缘性能', '多种漆包等级'],
+    price: '询价',
+    inStock: true,
+  },
+  {
+    id: 6,
+    slug: 'battery-tab',
+    name: '电池连接片',
+    category: 'battery',
+    description: '用于各类电池连接的高精度扁线材料',
+    image: '/images/products/battery-tab.jpg',
+    features: ['铝、铜、镍材质可选', '镍镀铜可选', '高精度尺寸控制', '优异导电性能'],
+    price: '询价',
+    inStock: true,
+  },
+  {
+    id: 7,
+    slug: 'cable-shielding',
+    name: '电缆屏蔽材料',
+    category: 'cable',
+    description: '用于电缆屏蔽的铜/铝扁线材料',
+    image: '/images/products/cable-shielding.jpg',
+    features: ['优异屏蔽效果', '柔韧性好', '易于加工', '多种规格可选'],
+    price: '询价',
+    inStock: true,
+  },
+  {
+    id: 8,
+    slug: 'nickel-strip',
+    name: 'SMT/SMD镍带',
+    category: 'special',
+    description: '用于表面贴装技术的高精度镍扁线',
+    image: '/images/products/nickel-strip.jpg',
+    features: ['超高精度', '优异平直度', '良好焊接性', '耐腐蚀性强'],
+    price: '询价',
+    inStock: true,
+  },
+  {
+    id: 9,
+    slug: 'titanium-anode',
+    name: '钛MMO阳极带',
+    category: 'special',
+    description: '用于电化学应用的钛基金属氧化物阳极材料',
+    image: '/images/products/titanium-anode.jpg',
+    features: ['长使用寿命', '优异耐腐蚀性', '高电流效率', '环保材料'],
+    price: '询价',
+    inStock: true,
+  },
+  {
+    id: 10,
+    slug: 'smart-home-cable',
+    name: '智能家居线缆',
+    category: 'cable',
+    description: '专为智能家居系统设计的高性能扁线',
+    image: '/images/products/smart-cable.jpg',
+    features: ['柔韧性好', '信号传输稳定', '美观隐藏安装', '耐用可靠'],
+    price: '询价',
+    inStock: true,
+  },
+];
+
+const categories = [
+  { id: 'all', name: '全部产品', icon: '📦' },
+  { id: 'solar', name: '光伏行业', icon: '☀️' },
+  { id: 'copper', name: '铜扁线', icon: '🔴' },
+  { id: 'aluminum', name: '铝扁线', icon: '⚪' },
+  { id: 'bimetal', name: '双金属', icon: '🔵' },
+  { id: 'coated', name: '涂层扁线', icon: '🎨' },
+  { id: 'battery', name: '电池材料', icon: '🔋' },
+  { id: 'cable', name: '电缆材料', icon: '⚡' },
+  { id: 'special', name: '特殊材料', icon: '⭐' },
+];
+---
+
+<Layout title="产品中心 - 锐创新能源">
+  <div class="products-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <h1 class="hero-title">产品中心</h1>
+        <p class="hero-subtitle">专注扁线压延13年 · 提供定制化扁线解决方案</p>
+      </div>
+    </section>
+
+    <!-- Search and Filter -->
+    <section class="filter-section">
+      <div class="container">
+        <div class="filter-bar">
+          <div class="search-box">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="搜索产品名称或关键词..."
+              class="search-input"
+            />
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM18 18l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          
+          <div class="category-filters" id="categoryFilters">
+            {categories.map(category => (
+              <button
+                class:list={['category-btn', { active: category.id === 'all' }]}
+                data-category={category.id}
+              >
+                <span class="category-icon">{category.icon}</span>
+                <span>{category.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+      <div class="container">
+        <div class="products-header">
+          <h2>我们的产品</h2>
+          <div class="view-toggle">
+            <button class="view-btn active" data-view="grid">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                <rect x="2" y="2" width="6" height="6" rx="1"/>
+                <rect x="12" y="2" width="6" height="6" rx="1"/>
+                <rect x="2" y="12" width="6" height="6" rx="1"/>
+                <rect x="12" y="12" width="6" height="6" rx="1"/>
+              </svg>
+            </button>
+            <button class="view-btn" data-view="list">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                <rect x="2" y="3" width="16" height="3" rx="1"/>
+                <rect x="2" y="8.5" width="16" height="3" rx="1"/>
+                <rect x="2" y="14" width="16" height="3" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+          {products.map(product => (
+            <ProductCard
+              name={product.name}
+              description={product.description}
+              image={product.image}
+              price={product.price}
+              slug={product.slug}
+              category={product.category}
+              features={product.features}
+              tag={product.tag}
+            />
+          ))}
+        </div>
+
+        <div id="noResults" class="no-results" style="display: none;">
+          <div class="no-results-icon">🔍</div>
+          <h3>未找到匹配的产品</h3>
+          <p>请尝试其他搜索词或选择不同的产品分类</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="container">
+        <h2 class="section-title">为什么选择锐创</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>宽厚比>140倍</h3>
+            <p>中国唯一能生产宽厚比超过140倍的企业</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏭</div>
+            <h3>年产19,000吨</h3>
+            <p>13条国际先进的4连轧机，产能充足</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>快速交付</h3>
+            <p>MOQ 200公斤起，最快2天交货</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏆</div>
+            <h3>国家标准</h3>
+            <p>国家标准制定单位，质量有保障</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>需要定制化解决方案？</h2>
+          <p>我们的专业团队随时为您提供技术支持和产品定制服务</p>
+          <div class="cta-buttons">
+            <a href="/contact" class="btn btn-primary">立即咨询</a>
+            <a href="/about" class="btn btn-secondary">了解更多</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .products-page {
+      background: #f8f9fa;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.95;
+    }
+
+    /* Filter Section */
+    .filter-section {
+      background: white;
+      padding: 30px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .search-box {
+      position: relative;
+      max-width: 500px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 45px 12px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 25px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a0aec0;
+    }
+
+    .category-filters {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .category-btn {
+      padding: 10px 20px;
+      border: 2px solid #e2e8f0;
+      background: white;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #4a5568;
+    }
+
+    .category-btn:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    .category-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-color: transparent;
+      color: white;
+    }
+
+    .category-icon {
+      font-size: 1.2rem;
+    }
+
+    /* Products Section */
+    .products-section {
+      padding: 60px 0;
+    }
+
+    .products-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .products-header h2 {
+      font-size: 2rem;
+      color: #2d3748;
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 8px;
+      background: white;
+      padding: 4px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .view-btn {
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 6px;
+      color: #718096;
+      transition: all 0.3s;
+    }
+
+    .view-btn:hover {
+      color: #667eea;
+    }
+
+    .view-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .products-grid.list-view {
+      grid-template-columns: 1fr;
+    }
+
+    /* No Results */
+    .no-results {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .no-results-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .no-results h3 {
+      font-size: 1.5rem;
+      color: #2d3748;
+      margin-bottom: 0.5rem;
+    }
+
+    .no-results p {
+      color: #718096;
+    }
+
+    /* Features Section */
+    .features-section {
+      padding: 80px 0;
+      background: white;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: #2d3748;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: #f8f9fa;
+      padding: 40px 30px;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #2d3748;
+    }
+
+    .feature-card p {
+      color: #4a5568;
+      line-height: 1.6;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .cta-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 15px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: white;
+      color: #667eea;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: #667eea;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .products-header {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+
+  <script>
+    // 搜索和筛选功能
+    const searchInput = document.getElementById('searchInput');
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const productsGrid = document.getElementById('productsGrid');
+    const noResults = document.getElementById('noResults');
+    const viewBtns = document.querySelectorAll('.view-btn');
+
+    let currentCategory = 'all';
+    let currentSearch = '';
+
+    // 搜索功能
+    searchInput?.addEventListener('input', (e) => {
+      currentSearch = e.target.value.toLowerCase();
+      filterProducts();
+    });
+
+    // 分类筛选
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.category;
+        filterProducts();
+      });
+    });
+
+    // 视图切换
+    viewBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        viewBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        if (btn.dataset.view === 'list') {
+          productsGrid.classList.add('list-view');
+        } else {
+          productsGrid.classList.remove('list-view');
+        }
+      });
+    });
+
+    function filterProducts() {
+      const products = productsGrid.querySelectorAll('.product-card');
+      let visibleCount = 0;
+
+      products.forEach(product => {
+        const category = product.dataset.category;
+        const name = product.dataset.name.toLowerCase();
+        const description = product.dataset.description?.toLowerCase() || '';
+
+        const matchesCategory = currentCategory === 'all' || category === currentCategory;
+        const matchesSearch = !currentSearch || name.includes(currentSearch) || description.includes(currentSearch);
+
+        if (matchesCategory && matchesSearch) {
+          product.style.display = 'block';
+          visibleCount++;
+        } else {
+          product.style.display = 'none';
+        }
+      });
+
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  </script>
+</Layout>

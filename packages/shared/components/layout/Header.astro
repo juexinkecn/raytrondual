@@ -1,0 +1,358 @@
+---
+/**
+ * Header Component - 网站头部
+ * 
+ * 功能:
+ * - 响应式导航栏
+ * - 语言切换器
+ * - 移动端菜单
+ * - Sticky效果
+ * - 搜索功能入口
+ * - CTA按钮
+ */
+
+import { getEntry } from 'astro:content';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import MobileMenuButton from './MobileMenuButton';
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  lang: 'en' | 'cn';
+  currentPath?: string;
+}
+
+const { lang, currentPath = '' } = Astro.props;
+
+// 导航数据
+const navigation = {
+  en: [
+    {
+      name: 'Products',
+      href: '/products',
+      children: [
+        { name: 'Copper Series', href: '/products/copper' },
+        { name: 'Aluminum Series', href: '/products/aluminum' },
+        { name: 'Copper Clad Aluminum', href: '/products/cca', featured: true },
+        { name: 'Nickel Clad Copper', href: '/products/ncc' },
+        { name: 'Silver Clad Copper', href: '/products/scc' },
+        { name: 'Copper Clad Steel', href: '/products/ccs' },
+        { name: 'Specialty Products', href: '/products/specialty' },
+      ],
+    },
+    {
+      name: 'Applications',
+      href: '/applications',
+      children: [
+        { name: 'Photovoltaic & Solar', href: '/applications/photovoltaic-solar' },
+        { name: 'Battery & Energy Storage', href: '/applications/battery-energy-storage' },
+        { name: 'Electric Vehicles', href: '/applications/electric-vehicles' },
+        { name: 'Cable & Wire', href: '/applications/cable-wire' },
+        { name: 'Electronics & PCB', href: '/applications/electronics-pcb' },
+        { name: 'Welding', href: '/applications/welding' },
+        { name: 'Industrial Automation', href: '/applications/industrial-automation' },
+        { name: 'Telecommunications', href: '/applications/telecommunications' },
+      ],
+    },
+    {
+      name: 'Solutions',
+      href: '/solutions',
+      children: [
+        { name: 'Custom Manufacturing', href: '/solutions/custom-manufacturing' },
+        { name: 'Material Selection Guide', href: '/solutions/material-selection' },
+        { name: 'Technical Consultation', href: '/solutions/technical-consultation' },
+      ],
+    },
+    {
+      name: 'Resources',
+      href: '/resources',
+      children: [
+        { name: 'Blog', href: '/blog' },
+        { name: 'White Papers', href: '/resources/whitepapers' },
+        { name: 'Datasheets', href: '/resources/datasheets' },
+        { name: 'Case Studies', href: '/resources/case-studies' },
+        { name: 'Videos', href: '/resources/videos' },
+        { name: 'FAQ', href: '/faq' },
+      ],
+    },
+    {
+      name: 'About',
+      href: '/about',
+      children: [
+        { name: 'Company Profile', href: '/about/company' },
+        { name: 'Manufacturing', href: '/about/manufacturing' },
+        { name: 'Quality Control', href: '/about/quality' },
+        { name: 'Certifications', href: '/about/certifications' },
+      ],
+    },
+  ],
+  cn: [
+    {
+      name: '产品中心',
+      href: '/products',
+      children: [
+        { name: '铜系列', href: '/products/copper' },
+        { name: '铝系列', href: '/products/aluminum' },
+        { name: '铜包铝系列', href: '/products/cca', featured: true },
+        { name: '镍包铜系列', href: '/products/ncc' },
+        { name: '银包铜系列', href: '/products/scc' },
+        { name: '铜包钢系列', href: '/products/ccs' },
+        { name: '特种产品', href: '/products/specialty' },
+      ],
+    },
+    {
+      name: '应用领域',
+      href: '/applications',
+      children: [
+        { name: '光伏太阳能', href: '/applications/photovoltaic-solar' },
+        { name: '电池储能', href: '/applications/battery-energy-storage' },
+        { name: '电动汽车', href: '/applications/electric-vehicles' },
+        { name: '电缆线缆', href: '/applications/cable-wire' },
+        { name: '电子电路', href: '/applications/electronics-pcb' },
+        { name: '焊接', href: '/applications/welding' },
+        { name: '工业自动化', href: '/applications/industrial-automation' },
+        { name: '通信', href: '/applications/telecommunications' },
+      ],
+    },
+    {
+      name: '解决方案',
+      href: '/solutions',
+      children: [
+        { name: '定制制造', href: '/solutions/custom-manufacturing' },
+        { name: '材料选择指南', href: '/solutions/material-selection' },
+        { name: '技术咨询', href: '/solutions/technical-consultation' },
+      ],
+    },
+    {
+      name: '资源中心',
+      href: '/resources',
+      children: [
+        { name: '博客文章', href: '/blog' },
+        { name: '白皮书', href: '/resources/whitepapers' },
+        { name: '数据表', href: '/resources/datasheets' },
+        { name: '案例研究', href: '/resources/case-studies' },
+        { name: '视频库', href: '/resources/videos' },
+        { name: '常见问题', href: '/faq' },
+      ],
+    },
+    {
+      name: '关于我们',
+      href: '/about',
+      children: [
+        { name: '公司简介', href: '/about/company' },
+        { name: '生产设施', href: '/about/manufacturing' },
+        { name: '质量控制', href: '/about/quality' },
+        { name: '认证证书', href: '/about/certifications' },
+      ],
+    },
+  ],
+};
+
+const navItems = navigation[lang];
+
+// 获取当前域名前缀
+const siteUrl = lang === 'en' ? 'https://en.raytron.group' : 'https://cn.raytron.group';
+---
+
+<header
+  id="site-header"
+  class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Top Bar - 联系信息和语言切换 -->
+    <div class="hidden lg:flex items-center justify-between py-2 text-sm border-b border-gray-200">
+      <div class="flex items-center space-x-6 text-gray-600">
+        <a href="tel:+86-xxx-xxxx" class="flex items-center hover:text-primary-600 transition-colors">
+          <Icon name="lucide:phone" class="w-4 h-4 mr-1" />
+          <span>+86-xxx-xxxx</span>
+        </a>
+        <a href="mailto:info@raytron.group" class="flex items-center hover:text-primary-600 transition-colors">
+          <Icon name="lucide:mail" class="w-4 h-4 mr-1" />
+          <span>info@raytron.group</span>
+        </a>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <LanguageSwitcher lang={lang} currentPath={currentPath} />
+        
+        <!-- 社交媒体链接 -->
+        <div class="flex items-center space-x-2">
+          <a 
+            href="https://linkedin.com/company/raytron" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-gray-600 hover:text-primary-600 transition-colors"
+            aria-label="LinkedIn"
+          >
+            <Icon name="lucide:linkedin" class="w-4 h-4" />
+          </a>
+          <a 
+            href="https://twitter.com/raytron" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="text-gray-600 hover:text-primary-600 transition-colors"
+            aria-label="Twitter"
+          >
+            <Icon name="lucide:twitter" class="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="flex items-center justify-between h-16 lg:h-20">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href={`${siteUrl}/`} class="flex items-center">
+          <img
+            src="/images/logo.svg"
+            alt="RAYTRON Logo"
+            class="h-8 lg:h-10 w-auto"
+            width="150"
+            height="40"
+          />
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center space-x-1 xl:space-x-2">
+        {navItems.map((item) => (
+          <div class="relative group">
+            <a
+              href={`${siteUrl}${item.href}`}
+              class={`
+                px-3 xl:px-4 py-2 rounded-md text-sm xl:text-base font-medium
+                transition-colors duration-200
+                ${currentPath.startsWith(item.href)
+                  ? 'text-primary-600 bg-primary-50'
+                  : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                }
+              `}
+            >
+              {item.name}
+            </a>
+
+            <!-- Dropdown Menu -->
+            {item.children && (
+              <div class="
+                absolute left-0 mt-2 w-64 rounded-lg shadow-xl bg-white
+                opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                transition-all duration-200 transform group-hover:translate-y-0 translate-y-2
+                border border-gray-200
+              ">
+                <div class="py-2">
+                  {item.children.map((child) => (
+                    <a
+                      href={`${siteUrl}${child.href}`}
+                      class={`
+                        block px-4 py-2 text-sm
+                        transition-colors duration-150
+                        ${child.featured
+                          ? 'text-primary-600 font-semibold bg-primary-50 hover:bg-primary-100'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-primary-600'
+                        }
+                      `}
+                    >
+                      {child.name}
+                      {child.featured && (
+                        <span class="ml-2 text-xs bg-primary-600 text-white px-2 py-0.5 rounded-full">
+                          {lang === 'en' ? 'Featured' : '主打'}
+                        </span>
+                      )}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center space-x-4">
+        <!-- Search Button -->
+        <button
+          type="button"
+          class="hidden lg:flex items-center justify-center w-10 h-10 rounded-lg text-gray-600 hover:text-primary-600 hover:bg-gray-100 transition-colors"
+          aria-label={lang === 'en' ? 'Search' : '搜索'}
+        >
+          <Icon name="lucide:search" class="w-5 h-5" />
+        </button>
+
+        <!-- CTA Button -->
+        <a
+          href={`${siteUrl}/contact`}
+          class="
+            hidden lg:inline-flex items-center px-4 xl:px-6 py-2 xl:py-2.5
+            bg-primary-600 text-white rounded-lg
+            hover:bg-primary-700 transition-colors duration-200
+            text-sm xl:text-base font-medium
+            shadow-sm hover:shadow-md
+          "
+        >
+          <Icon name="lucide:mail" class="w-4 h-4 mr-2" />
+          {lang === 'en' ? 'Get Quote' : '获取报价'}
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <MobileMenuButton client:load lang={lang} navItems={navItems} />
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Sticky header效果增强 */
+  #site-header {
+    transition: all 0.3s ease;
+  }
+
+  #site-header.scrolled {
+    @apply shadow-md;
+  }
+
+  /* Dropdown箭头指示器 */
+  nav > div:hover > a::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid white;
+  }
+
+  /* 平滑过渡 */
+  .group > div {
+    pointer-events: none;
+  }
+
+  .group:hover > div {
+    pointer-events: auto;
+  }
+</style>
+
+<script>
+  // Sticky header效果
+  const header = document.getElementById('site-header');
+  let lastScroll = 0;
+
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > 50) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+
+    lastScroll = currentScroll;
+  });
+
+  // 搜索功能（TODO: 实现搜索模态框）
+  document.querySelector('[aria-label="Search"], [aria-label="搜索"]')?.addEventListener('click', () => {
+    console.log('Search clicked - TODO: Implement search modal');
+  });
+</script>

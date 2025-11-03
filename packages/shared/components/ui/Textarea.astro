@@ -1,0 +1,155 @@
+---
+/**
+ * 通用文本域组件
+ * 支持多行文本输入、字符计数、自动调整高度
+ */
+
+interface Props {
+  name: string;
+  id?: string;
+  value?: string;
+  placeholder?: string;
+  label?: string;
+  helperText?: string;
+  error?: string;
+  required?: boolean;
+  disabled?: boolean;
+  readonly?: boolean;
+  rows?: number;
+  maxLength?: number;
+  showCounter?: boolean;
+  resize?: 'none' | 'vertical' | 'horizontal' | 'both';
+  fullWidth?: boolean;
+  class?: string;
+}
+
+const {
+  name,
+  id = name,
+  value = '',
+  placeholder,
+  label,
+  helperText,
+  error,
+  required = false,
+  disabled = false,
+  readonly = false,
+  rows = 4,
+  maxLength,
+  showCounter = false,
+  resize = 'vertical',
+  fullWidth = false,
+  class: className = '',
+} = Astro.props;
+
+// 基础样式
+const baseStyles = 'border rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 px-4 py-2.5 text-base';
+
+// 状态样式
+const stateStyles = error
+  ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+  : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500';
+
+// resize样式
+const resizeStyles = {
+  none: 'resize-none',
+  vertical: 'resize-y',
+  horizontal: 'resize-x',
+  both: 'resize',
+};
+
+// 组合样式
+const textareaClasses = [
+  baseStyles,
+  stateStyles,
+  resizeStyles[resize],
+  fullWidth ? 'w-full' : '',
+  disabled ? 'bg-gray-100 cursor-not-allowed opacity-60' : 'bg-white',
+  className,
+].filter(Boolean).join(' ');
+
+// 容器样式
+const containerClasses = fullWidth ? 'w-full' : '';
+
+// 当前字符数
+const currentLength = value.length;
+---
+
+<div class={containerClasses}>
+  {label && (
+    <label for={id} class="block text-sm font-medium text-gray-700 mb-1.5">
+      {label}
+      {required && <span class="text-red-500 ml-0.5">*</span>}
+    </label>
+  )}
+  
+  <textarea
+    name={name}
+    id={id}
+    placeholder={placeholder}
+    required={required}
+    disabled={disabled}
+    readonly={readonly}
+    rows={rows}
+    maxlength={maxLength}
+    class={textareaClasses}
+    aria-invalid={error ? 'true' : 'false'}
+    aria-describedby={error ? `${id}-error` : helperText ? `${id}-helper` : undefined}
+  >{value}</textarea>
+  
+  {(showCounter && maxLength) && (
+    <div class="mt-1 flex justify-between items-center text-sm">
+      <span class="text-gray-500">
+        {currentLength}/{maxLength} characters
+      </span>
+      {currentLength >= maxLength && (
+        <span class="text-red-600 font-medium">Limit reached</span>
+      )}
+    </div>
+  )}
+  
+  {error && (
+    <p id={`${id}-error`} class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+      <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+      </svg>
+      {error}
+    </p>
+  )}
+  
+  {!error && helperText && (
+    <p id={`${id}-helper`} class="mt-1.5 text-sm text-gray-500">
+      {helperText}
+    </p>
+  )}
+</div>
+
+<style>
+  /* 增强focus可见性 */
+  textarea:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  textarea[aria-invalid='true']:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  }
+  
+  /* 自定义滚动条样式 */
+  textarea::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  textarea::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  textarea::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 4px;
+  }
+  
+  textarea::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+  }
+</style>

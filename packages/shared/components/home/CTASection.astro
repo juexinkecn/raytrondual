@@ -1,0 +1,366 @@
+---
+// src/components/home/CTASection.astro
+import Button from '../ui/Button.astro';
+import Badge from '../ui/Badge.astro';
+import type { Language } from '../../types/language';
+
+interface Props {
+  lang?: Language;
+  variant?: 'primary' | 'secondary' | 'minimal';
+}
+
+const { lang = 'en', variant = 'primary' } = Astro.props;
+
+// 内容
+const content = {
+  en: {
+    primary: {
+      badge: 'Get Started Today',
+      title: 'Ready to Transform Your Production?',
+      subtitle: 'Partner with China\'s leading manufacturer of precision flat wire and ribbon products.',
+      description: 'Get a custom quote for your specific requirements, or speak with our technical team to explore solutions.',
+      primaryCTA: 'Request a Quote',
+      secondaryCTA: 'Schedule Consultation',
+      features: [
+        'Free sample evaluation',
+        'Custom specifications',
+        'Fast turnaround',
+        'Dedicated support',
+      ],
+      contact: {
+        phone: '+86-512-5512-3456',
+        email: 'sales@raytron.com',
+        hours: 'Mon-Fri 8:00-18:00 (GMT+8)',
+      },
+      testimonial: {
+        text: 'Raytron\'s precision and reliability have been instrumental in improving our solar module efficiency. Their technical support is unmatched.',
+        author: 'John Smith',
+        role: 'Procurement Manager',
+        company: 'SolarTech Industries',
+      },
+    },
+    secondary: {
+      badge: 'Stay Connected',
+      title: 'Subscribe to Our Newsletter',
+      subtitle: 'Get the latest industry insights, product updates, and technical resources.',
+      description: 'Join 5,000+ professionals who receive our monthly updates.',
+      primaryCTA: 'Subscribe Now',
+      secondaryCTA: 'Learn More',
+      features: [
+        'Industry trends',
+        'Technical articles',
+        'Product innovations',
+        'Case studies',
+      ],
+    },
+    minimal: {
+      title: 'Questions About Our Products?',
+      subtitle: 'Our team is here to help.',
+      primaryCTA: 'Contact Us',
+      secondaryCTA: 'View FAQ',
+    },
+  },
+  zh: {
+    primary: {
+      badge: '立即开始',
+      title: '准备好转变您的生产了吗？',
+      subtitle: '与中国领先的精密扁线和带材制造商合作。',
+      description: '获取针对您特定需求的定制报价，或与我们的技术团队交流以探索解决方案。',
+      primaryCTA: '索取报价',
+      secondaryCTA: '预约咨询',
+      features: [
+        '免费样品评估',
+        '定制规格',
+        '快速交付',
+        '专属支持',
+      ],
+      contact: {
+        phone: '+86-512-5512-3456',
+        email: 'sales@raytron.com',
+        hours: '周一至周五 8:00-18:00 (GMT+8)',
+      },
+      testimonial: {
+        text: '锐创的精度和可靠性对提高我们太阳能组件效率至关重要。他们的技术支持无与伦比。',
+        author: '张伟',
+        role: '采购经理',
+        company: '阳光科技实业',
+      },
+    },
+    secondary: {
+      badge: '保持联系',
+      title: '订阅我们的通讯',
+      subtitle: '获取最新的行业洞察、产品更新和技术资源。',
+      description: '加入5,000+专业人士，接收我们的月度更新。',
+      primaryCTA: '立即订阅',
+      secondaryCTA: '了解更多',
+      features: [
+        '行业趋势',
+        '技术文章',
+        '产品创新',
+        '案例研究',
+      ],
+    },
+    minimal: {
+      title: '对我们的产品有疑问？',
+      subtitle: '我们的团队随时为您服务。',
+      primaryCTA: '联系我们',
+      secondaryCTA: '查看FAQ',
+    },
+  },
+};
+
+const t = content[lang][variant];
+---
+
+{variant === 'primary' && (
+  <section class="relative py-16 sm:py-24 overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700">
+      <div class="absolute inset-0 opacity-10">
+        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Decorative Blobs -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
+    <div class="absolute top-0 right-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
+    <div class="absolute bottom-0 left-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        
+        <!-- Left Column: Content -->
+        <div class="text-white">
+          <Badge variant="secondary" size="lg" class="mb-6 bg-white/20 backdrop-blur-sm border-white/30">
+            {t.badge}
+          </Badge>
+
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+            {t.title}
+          </h2>
+
+          <p class="text-xl text-blue-100 mb-6">
+            {t.subtitle}
+          </p>
+
+          <p class="text-lg text-blue-200 mb-8">
+            {t.description}
+          </p>
+
+          <!-- Features Grid -->
+          <div class="grid grid-cols-2 gap-4 mb-8">
+            {t.features.map((feature: string) => (
+              <div class="flex items-center gap-3">
+                <div class="flex-shrink-0 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <span class="text-blue-50 font-medium">{feature}</span>
+              </div>
+            ))}
+          </div>
+
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row gap-4 mb-8">
+            <a
+              href={lang === 'zh' ? '/zh/quote' : '/quote'}
+              class="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl"
+            >
+              {t.primaryCTA}
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+            <a
+              href={lang === 'zh' ? '/zh/contact' : '/contact'}
+              class="inline-flex items-center justify-center px-8 py-4 bg-transparent text-white font-semibold border-2 border-white rounded-lg hover:bg-white hover:text-blue-600 transition-all"
+            >
+              {t.secondaryCTA}
+            </a>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="flex flex-wrap gap-6 text-sm text-blue-100">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              <span>{t.contact.phone}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span>{t.contact.email}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span>{t.contact.hours}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Testimonial Card -->
+        <div class="lg:pl-8">
+          <div class="bg-white rounded-2xl p-8 shadow-2xl transform hover:scale-105 transition-transform duration-300">
+            <!-- Quote Icon -->
+            <svg class="w-12 h-12 text-blue-600 mb-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+            </svg>
+
+            <!-- Testimonial Text -->
+            <p class="text-lg text-gray-700 mb-6 italic leading-relaxed">
+              "{t.testimonial.text}"
+            </p>
+
+            <!-- Author -->
+            <div class="flex items-center gap-4">
+              <!-- Avatar Placeholder -->
+              <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                {t.testimonial.author.charAt(0)}
+              </div>
+              <div>
+                <div class="font-semibold text-gray-900">
+                  {t.testimonial.author}
+                </div>
+                <div class="text-sm text-gray-600">
+                  {t.testimonial.role}, {t.testimonial.company}
+                </div>
+              </div>
+            </div>
+
+            <!-- Rating Stars -->
+            <div class="flex gap-1 mt-6">
+              {[1, 2, 3, 4, 5].map(() => (
+                <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+)}
+
+{variant === 'secondary' && (
+  <section class="py-16 sm:py-24 bg-gradient-to-br from-gray-50 to-gray-100">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <Badge variant="primary" size="lg" class="mb-6">
+        {t.badge}
+      </Badge>
+
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+        {t.title}
+      </h2>
+
+      <p class="text-xl text-gray-600 mb-4">
+        {t.subtitle}
+      </p>
+
+      <p class="text-lg text-gray-500 mb-8">
+        {t.description}
+      </p>
+
+      <!-- Newsletter Form -->
+      <div class="max-w-md mx-auto mb-8">
+        <form class="flex gap-2">
+          <input
+            type="email"
+            placeholder={lang === 'en' ? 'Enter your email' : '输入您的邮箱'}
+            class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <button
+            type="submit"
+            class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            {t.primaryCTA}
+          </button>
+        </form>
+        <p class="text-xs text-gray-500 mt-2">
+          {lang === 'en' ? 'We respect your privacy. Unsubscribe at any time.' : '我们尊重您的隐私。随时可取消订阅。'}
+        </p>
+      </div>
+
+      <!-- Features -->
+      <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-600">
+        {t.features.map((feature: string) => (
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            <span>{feature}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{variant === 'minimal' && (
+  <section class="py-12 bg-gray-50 border-t border-b border-gray-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
+        {t.title}
+      </h2>
+      <p class="text-lg text-gray-600 mb-6">
+        {t.subtitle}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <Button href={lang === 'zh' ? '/zh/contact' : '/contact'} variant="primary" size="lg">
+          {t.primaryCTA}
+        </Button>
+        <Button href={lang === 'zh' ? '/zh/faq' : '/faq'} variant="outline" size="lg">
+          {t.secondaryCTA}
+        </Button>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  /* Blob Animation */
+  @keyframes blob {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .grid {
+      gap: 2rem;
+    }
+  }
+</style>

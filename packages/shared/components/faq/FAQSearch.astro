@@ -1,0 +1,468 @@
+---
+// FAQ搜索组件 - 实时搜索过滤
+// 支持中英文关键词搜索
+
+interface Props {
+  placeholder?: string;
+  searchPlaceholderEn?: string;
+  showPopularSearches?: boolean; // 是否显示热门搜索
+  popularSearches?: string[]; // 热门搜索词
+}
+
+const { 
+  placeholder = "搜索常见问题...",
+  searchPlaceholderEn = "Search FAQs...",
+  showPopularSearches = true,
+  popularSearches = [
+    "产品规格",
+    "定制服务",
+    "交付时间",
+    "质量认证",
+    "技术支持",
+    "最小订单量"
+  ]
+} = Astro.props;
+---
+
+<div class="faq-search">
+  <!-- 搜索框 -->
+  <div class="search-box">
+    <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <input 
+      type="text" 
+      id="faq-search-input"
+      class="search-input"
+      placeholder={placeholder}
+      aria-label="搜索常见问题"
+    />
+    <button class="clear-btn" id="clear-search" aria-label="清除搜索">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- 搜索提示 -->
+  <div class="search-hints">
+    <svg class="hint-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span class="hint-text">输入关键词搜索，支持中英文</span>
+  </div>
+
+  <!-- 热门搜索（可选） -->
+  {showPopularSearches && popularSearches && popularSearches.length > 0 && (
+    <div class="popular-searches">
+      <div class="popular-label">
+        <svg class="label-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
+        </svg>
+        热门搜索：
+      </div>
+      <div class="popular-tags">
+        {popularSearches.map((search) => (
+          <button class="popular-tag" data-search={search}>
+            {search}
+          </button>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- 搜索结果统计 -->
+  <div class="search-stats" id="search-stats" style="display: none;">
+    <span class="stats-text">
+      找到 <strong id="results-count">0</strong> 个相关问题
+    </span>
+    <button class="reset-btn" id="reset-search">
+      重置搜索
+    </button>
+  </div>
+
+  <!-- 无结果提示 -->
+  <div class="no-results" id="no-results" style="display: none;">
+    <svg class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <h3>未找到相关问题</h3>
+    <p>请尝试其他关键词，或<a href="#contact">联系我们的技术团队</a></p>
+  </div>
+</div>
+
+<style>
+  .faq-search {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  /* 搜索框 */
+  .search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .search-box:focus-within {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .search-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #9ca3af;
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #111827;
+    background: transparent;
+  }
+
+  .search-input::placeholder {
+    color: #9ca3af;
+  }
+
+  .clear-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    background: #f3f4f6;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .clear-btn svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    color: #6b7280;
+  }
+
+  .clear-btn:hover {
+    background: #e5e7eb;
+  }
+
+  .clear-btn.visible {
+    display: flex;
+  }
+
+  /* 搜索提示 */
+  .search-hints {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding-left: 0.25rem;
+  }
+
+  .hint-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #9ca3af;
+    flex-shrink: 0;
+  }
+
+  .hint-text {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  /* 热门搜索 */
+  .popular-searches {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 12px;
+    border: 1px solid #bae6fd;
+  }
+
+  .popular-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #0369a1;
+  }
+
+  .label-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #0ea5e9;
+  }
+
+  .popular-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .popular-tag {
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid #7dd3fc;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #0369a1;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .popular-tag:hover {
+    background: #0ea5e9;
+    border-color: #0ea5e9;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+  }
+
+  /* 搜索结果统计 */
+  .search-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+  }
+
+  .stats-text {
+    font-size: 0.875rem;
+    color: #166534;
+  }
+
+  .stats-text strong {
+    font-weight: 700;
+    color: #15803d;
+  }
+
+  .reset-btn {
+    padding: 0.375rem 0.75rem;
+    background: white;
+    border: 1px solid #86efac;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #166534;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .reset-btn:hover {
+    background: #dcfce7;
+    border-color: #4ade80;
+  }
+
+  /* 无结果提示 */
+  .no-results {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: #fef3c7;
+    border: 2px dashed #fbbf24;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+  }
+
+  .no-results .icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto 1rem;
+    color: #f59e0b;
+  }
+
+  .no-results h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #78350f;
+    margin-bottom: 0.5rem;
+  }
+
+  .no-results p {
+    color: #92400e;
+    font-size: 0.9375rem;
+  }
+
+  .no-results a {
+    color: #ea580c;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  .no-results a:hover {
+    color: #c2410c;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .search-box {
+      padding: 0.625rem 0.875rem;
+    }
+
+    .search-input {
+      font-size: 0.9375rem;
+    }
+
+    .popular-searches {
+      padding: 1rem;
+    }
+
+    .popular-tag {
+      font-size: 0.8125rem;
+      padding: 0.4rem 0.875rem;
+    }
+
+    .search-stats {
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: stretch;
+    }
+
+    .reset-btn {
+      width: 100%;
+    }
+
+    .no-results {
+      padding: 2rem 1.5rem;
+    }
+
+    .no-results h3 {
+      font-size: 1.125rem;
+    }
+  }
+</style>
+
+<script>
+  // FAQ搜索功能
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('faq-search-input') as HTMLInputElement;
+    const clearBtn = document.getElementById('clear-search');
+    const searchStats = document.getElementById('search-stats');
+    const resultsCount = document.getElementById('results-count');
+    const noResults = document.getElementById('no-results');
+    const resetBtn = document.getElementById('reset-search');
+    const faqItems = document.querySelectorAll('.faq-item');
+    const popularTags = document.querySelectorAll('.popular-tag');
+
+    // 搜索函数
+    function performSearch(query: string) {
+      if (!searchInput || !faqItems) return;
+
+      const searchTerm = query.toLowerCase().trim();
+      let visibleCount = 0;
+
+      // 如果搜索词为空，显示所有项目
+      if (!searchTerm) {
+        faqItems.forEach(item => {
+          (item as HTMLElement).style.display = 'block';
+        });
+        clearBtn?.classList.remove('visible');
+        searchStats && (searchStats.style.display = 'none');
+        noResults && (noResults.style.display = 'none');
+        return;
+      }
+
+      // 显示清除按钮
+      clearBtn?.classList.add('visible');
+
+      // 搜索匹配
+      faqItems.forEach(item => {
+        const question = item.querySelector('.question-text')?.textContent?.toLowerCase() || '';
+        const answer = item.querySelector('.answer-content')?.textContent?.toLowerCase() || '';
+        const category = item.getAttribute('data-category')?.toLowerCase() || '';
+
+        const isMatch = question.includes(searchTerm) || 
+                       answer.includes(searchTerm) || 
+                       category.includes(searchTerm);
+
+        if (isMatch) {
+          (item as HTMLElement).style.display = 'block';
+          visibleCount++;
+        } else {
+          (item as HTMLElement).style.display = 'none';
+        }
+      });
+
+      // 更新结果统计
+      if (resultsCount) {
+        resultsCount.textContent = String(visibleCount);
+      }
+
+      // 显示/隐藏结果状态
+      if (visibleCount > 0) {
+        searchStats && (searchStats.style.display = 'flex');
+        noResults && (noResults.style.display = 'none');
+      } else {
+        searchStats && (searchStats.style.display = 'none');
+        noResults && (noResults.style.display = 'block');
+      }
+    }
+
+    // 实时搜索
+    searchInput?.addEventListener('input', (e) => {
+      const query = (e.target as HTMLInputElement).value;
+      performSearch(query);
+    });
+
+    // 清除搜索
+    clearBtn?.addEventListener('click', () => {
+      if (searchInput) {
+        searchInput.value = '';
+        performSearch('');
+        searchInput.focus();
+      }
+    });
+
+    // 重置搜索
+    resetBtn?.addEventListener('click', () => {
+      if (searchInput) {
+        searchInput.value = '';
+        performSearch('');
+        searchInput.focus();
+      }
+    });
+
+    // 热门搜索标签点击
+    popularTags.forEach(tag => {
+      tag.addEventListener('click', () => {
+        const searchTerm = tag.getAttribute('data-search') || '';
+        if (searchInput) {
+          searchInput.value = searchTerm;
+          performSearch(searchTerm);
+          searchInput.focus();
+        }
+      });
+    });
+
+    // ESC键清除搜索
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && searchInput && searchInput.value) {
+        searchInput.value = '';
+        performSearch('');
+      }
+    });
+  });
+</script>

@@ -1,0 +1,161 @@
+---
+// src/components/seo/StructuredData.astro
+import type { Product } from '../../types/product';
+
+interface Props {
+  type: 'organization' | 'product' | 'faq' | 'breadcrumb' | 'website';
+  data?: any;
+  product?: Product;
+  faqs?: Array<{ question: string; answer: string }>;
+  breadcrumbs?: Array<{ name: string; url: string }>;
+  lang?: 'en' | 'zh';
+}
+
+const { type, data, product, faqs, breadcrumbs, lang = 'en' } = Astro.props;
+const siteUrl = lang === 'en' ? 'https://en.raytron.group' : 'https://cn.raytron.group';
+
+// 1. Organization Schema
+function getOrganizationSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Raytron Metal Ribbon Co., Ltd.',
+    alternateName: lang === 'zh' ? '瑞创金属扁线有限公司' : 'Raytron',
+    url: siteUrl,
+    logo: `${siteUrl}/images/logo.png`,
+    description: lang === 'zh' 
+      ? '专业生产铜扁线、铝扁线、铜包铝、镍包铜等金属扁线产品，应用于光伏、新能源汽车、电池储能等领域。'
+      : 'Professional manufacturer of copper flat wire, aluminum flat wire, CCA, NCC and other metal ribbon products for photovoltaic, EV, battery storage applications.',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+86-xxx-xxxx-xxxx',
+      contactType: 'sales',
+      email: 'info@raytron.group',
+      availableLanguage: ['en', 'zh'],
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'CN',
+      addressRegion: lang === 'zh' ? '广东省' : 'Guangdong',
+      addressLocality: lang === 'zh' ? '深圳市' : 'Shenzhen',
+    },
+    sameAs: [
+      'https://www.linkedin.com/company/raytron',
+      'https://twitter.com/raytron',
+    ],
+  };
+}
+
+// 2. Product Schema
+function getProductSchema() {
+  if (!product) return null;
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    description: product.description,
+    image: product.image ? `${siteUrl}${product.image}` : undefined,
+    brand: {
+      '@type': 'Brand',
+      name: 'Raytron',
+    },
+    manufacturer: {
+      '@type': 'Organization',
+      name: 'Raytron Metal Ribbon Co., Ltd.',
+    },
+    offers: {
+      '@type': 'AggregateOffer',
+      availability: 'https://schema.org/InStock',
+      priceCurrency: 'USD',
+      url: `${siteUrl}${Astro.url.pathname}`,
+    },
+    additionalProperty: product.specifications?.map((spec) => ({
+      '@type': 'PropertyValue',
+      name: spec.name,
+      value: spec.value,
+    })),
+    category: product.category,
+    mpn: product.sku || product.slug,
+  };
+}
+
+// 3. FAQ Schema
+function getFAQSchema() {
+  if (!faqs || faqs.length === 0) return null;
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+// 4. Breadcrumb Schema
+function getBreadcrumbSchema() {
+  if (!breadcrumbs || breadcrumbs.length === 0) return null;
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: `${siteUrl}${crumb.url}`,
+    })),
+  };
+}
+
+// 5. Website Schema
+function getWebsiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Raytron Metal Ribbon',
+    url: siteUrl,
+    description: lang === 'zh'
+      ? '专业金属扁线制造商'
+      : 'Professional Metal Ribbon Manufacturer',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${siteUrl}/search?q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
+    inLanguage: lang,
+  };
+}
+
+// 选择对应的 Schema
+let schema;
+switch (type) {
+  case 'organization':
+    schema = getOrganizationSchema();
+    break;
+  case 'product':
+    schema = getProductSchema();
+    break;
+  case 'faq':
+    schema = getFAQSchema();
+    break;
+  case 'breadcrumb':
+    schema = getBreadcrumbSchema();
+    break;
+  case 'website':
+    schema = getWebsiteSchema();
+    break;
+  default:
+    schema = null;
+}
+---
+
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

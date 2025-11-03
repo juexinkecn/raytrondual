@@ -1,0 +1,60 @@
+{
+  "name": "raytron-astro",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "RAYTRON New Energy - High-precision metal flat wire and strip manufacturer website",
+  "author": "RAYTRON New Energy (Zhejiang) Co., Ltd.",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev:en": "cd packages/en-site && npm run dev",
+    "dev:cn": "cd packages/cn-site && npm run dev",
+    "build:en": "cd packages/en-site && npm run build",
+    "build:cn": "cd packages/cn-site && npm run build"
+    "start": "astro dev",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.astro",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.astro --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/mdx": "^3.1.7",
+    "@astrojs/react": "^3.6.2",
+    "@astrojs/sitemap": "^3.1.6",
+    "@astrojs/tailwind": "^5.1.1",
+    "@astrojs/vercel": "^7.8.1",
+    "astro": "^4.15.11",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3",
+    "sharp": "^0.33.5",
+    "zod": "^3.23.8",
+    "lucide-react": "^0.390.0",
+    "framer-motion": "^11.11.11",
+    "react-hook-form": "^7.51.5",
+    "fuse.js": "^7.0.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.8.1",
+    "@typescript-eslint/parser": "^8.8.1",
+    "eslint": "^9.12.0",
+    "eslint-plugin-astro": "^1.2.4",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.8"
+  },
+  "engines": {
+    "node": ">=18.17.1",
+    "npm": ">=9.0.0"
+  }
+}

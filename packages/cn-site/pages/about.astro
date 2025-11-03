@@ -1,0 +1,261 @@
+---
+// src/pages/about.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WhyChooseUs from '../components/home/WhyChooseUs.astro';
+import CTASection from '../components/home/CTASection.astro';
+
+const pageTitle = 'About Raytron - Leading Flat Wire Manufacturer Since 2012';
+const pageDescription = 'Learn about Raytron\'s journey as China\'s premier flat wire manufacturer. Discover our commitment to innovation, quality, and customer service in metal strip production.';
+---
+
+<BaseLayout 
+  title={pageTitle}
+  description={pageDescription}
+  lang="en"
+>
+  {/* Hero Section */}
+  <section class="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          About Raytron
+        </h1>
+        <p class="text-xl text-blue-100 mb-8">
+          Leading manufacturer of high-precision flat wire and metal ribbons since 2012
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-3">
+            <div class="text-3xl font-bold">2012</div>
+            <div class="text-sm text-blue-100">Founded</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-3">
+            <div class="text-3xl font-bold">19,000+</div>
+            <div class="text-sm text-blue-100">Tons/Year Capacity</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-3">
+            <div class="text-3xl font-bold">100:1</div>
+            <div class="text-sm text-blue-100">Max Width-Thickness Ratio</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-3">
+            <div class="text-3xl font-bold">13</div>
+            <div class="text-sm text-blue-100">Production Lines</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Company Story */}
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Our Story</h2>
+        
+        <div class="prose prose-lg max-w-none">
+          <p class="text-gray-700 mb-6">
+            Founded in 2012, Raytron has grown from a small workshop to become China's leading manufacturer of high-precision flat wire and metal ribbons. We are the only company in China capable of producing flat wire with a width-to-thickness ratio of up to 100:1, a testament to our technological leadership and manufacturing excellence.
+          </p>
+          
+          <p class="text-gray-700 mb-6">
+            Our journey began with a simple vision: to provide the highest quality flat wire products for emerging industries like solar energy and electric vehicles. Today, we serve customers across eight major industries, from solar PV and battery manufacturing to aerospace and medical engineering.
+          </p>
+          
+          <p class="text-gray-700 mb-6">
+            With 13 state-of-the-art 4-high rolling mills and an annual production capacity of 19,000 tons, we combine advanced technology with rigorous quality control to deliver products that exceed international standards. Our ISO 9001:2015 certification and status as a National High-Tech Enterprise reflect our commitment to excellence.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Mission & Values */}
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Our Mission & Values</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Mission */}
+          <div class="bg-white rounded-xl shadow-lg p-8">
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+              <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Our Mission</h3>
+            <p class="text-gray-600">
+              To advance global industries through innovative flat wire solutions that enable cleaner energy, more efficient transportation, and breakthrough technologies.
+            </p>
+          </div>
+
+          {/* Vision */}
+          <div class="bg-white rounded-xl shadow-lg p-8">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Our Vision</h3>
+            <p class="text-gray-600">
+              To be the world's most trusted partner for high-precision metal strip solutions, recognized for quality, innovation, and customer service.
+            </p>
+          </div>
+
+          {/* Values */}
+          <div class="bg-white rounded-xl shadow-lg p-8">
+            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+              <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Our Values</h3>
+            <ul class="text-gray-600 space-y-2">
+              <li>• Quality without compromise</li>
+              <li>• Innovation through R&D</li>
+              <li>• Customer-centric solutions</li>
+              <li>• Environmental responsibility</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Technology & Capabilities */}
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Technology & Capabilities</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Manufacturing */}
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Advanced Manufacturing</h3>
+            <ul class="space-y-3 text-gray-700">
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>13 precision 4-high rolling mills</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>Automated production control systems</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>Real-time quality monitoring</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>Clean room production environments</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* R&D */}
+          <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">R&D Innovation</h3>
+            <ul class="space-y-3 text-gray-700">
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-green-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>Material science laboratory</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-green-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>Alloy development capabilities</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-green-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>Process optimization team</span>
+              </li>
+              <li class="flex items-start">
+                <svg class="w-6 h-6 text-green-600 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                <span>Custom solution development</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Certifications */}
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Certifications & Recognition</h2>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div class="bg-white rounded-xl shadow-md p-6 text-center">
+            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-3xl">🏆</span>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">ISO 9001:2015</h3>
+            <p class="text-sm text-gray-600">Quality Management</p>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-md p-6 text-center">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-3xl">🌟</span>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">High-Tech Enterprise</h3>
+            <p class="text-sm text-gray-600">National Recognition</p>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-md p-6 text-center">
+            <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-3xl">📋</span>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">RoHS Compliant</h3>
+            <p class="text-sm text-gray-600">Environmental Standards</p>
+          </div>
+
+          <div class="bg-white rounded-xl shadow-md p-6 text-center">
+            <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-3xl">📖</span>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Standard Setter</h3>
+            <p class="text-sm text-gray-600">Industry Standards</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Why Choose Us Section */}
+  <WhyChooseUs lang="en" />
+
+  {/* Team Section */}
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">Our Team</h2>
+        <p class="text-xl text-gray-600 mb-8">
+          Behind every product is a team of dedicated professionals committed to excellence. From our skilled engineers to our quality control specialists, every member of the Raytron family plays a vital role in delivering the highest quality flat wire solutions.
+        </p>
+        <p class="text-lg text-gray-600">
+          We invest in continuous training and development to ensure our team stays at the forefront of flat wire manufacturing technology and customer service excellence.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* CTA Section */}
+  <CTASection lang="en" />
+</BaseLayout>
