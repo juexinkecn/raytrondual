@@ -1,0 +1,37 @@
+---
+// src/layouts/BlogLayout.astro
+import type { Language, BlogFrontmatter } from '@/types';
+import BaseLayout from './BaseLayout.astro';
+import StructuredData from '@/components/seo/StructuredData.astro';
+
+export interface Props {
+  blog: BlogFrontmatter;
+  lang?: Language;
+}
+
+const { blog, lang = 'en' } = Astro.props;
+
+// 准备Article结构化数据
+const articleSchemaData = {
+  title: blog.title,
+  description: blog.description,
+  image: blog.featuredImage,
+  author: blog.author,
+  datePublished: blog.date,
+  dateModified: blog.updated || blog.date,
+};
+---
+
+<BaseLayout
+  title={blog.seo.title}
+  description={blog.seo.description}
+  keywords={blog.seo.keywords}
+  ogImage={blog.featuredImage}
+  ogType="article"
+  lang={lang}
+>
+  <!-- Article结构化数据 -->
+  <StructuredData slot="head" type="article" data={articleSchemaData} lang={lang} />
+
+  <slot />
+</BaseLayout>

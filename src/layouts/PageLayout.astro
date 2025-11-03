@@ -1,0 +1,101 @@
+---
+// src/layouts/PageLayout.astro
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Breadcrumb from '../components/layout/Breadcrumb.astro';
+import type { Language } from '../types/language';
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: Language;
+  keywords?: string[];
+  ogImage?: string;
+  noIndex?: boolean;
+  showBreadcrumb?: boolean;
+  breadcrumbItems?: Array<{ name: string; path: string }>;
+  containerSize?: 'full' | 'wide' | 'normal' | 'narrow';
+  backgroundColor?: string;
+}
+
+const {
+  title,
+  description,
+  lang = 'en',
+  keywords = [],
+  ogImage,
+  noIndex = false,
+  showBreadcrumb = true,
+  breadcrumbItems,
+  containerSize = 'normal',
+  backgroundColor = 'bg-gray-50',
+} = Astro.props;
+
+// 容器宽度映射
+const containerClasses = {
+  full: 'w-full',
+  wide: 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8',
+  normal: 'max-w-6xl mx-auto px-4 sm:px-6 lg:px-8',
+  narrow: 'max-w-4xl mx-auto px-4 sm:px-6 lg:px-8',
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  keywords={keywords}
+  ogImage={ogImage}
+  noIndex={noIndex}
+>
+  <!-- 页头 -->
+  <Header lang={lang} />
+
+  <!-- 面包屑导航 -->
+  {showBreadcrumb && (
+    <div class="bg-white border-b border-gray-200">
+      <div class={containerClasses[containerSize]}>
+        <Breadcrumb items={breadcrumbItems} lang={lang} />
+      </div>
+    </div>
+  )}
+
+  <!-- 主内容区域 -->
+  <main class={`flex-grow ${backgroundColor}`}>
+    <div class={containerSize === 'full' ? '' : containerClasses[containerSize]}>
+      <div class="py-8 sm:py-12">
+        <slot />
+      </div>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <Footer lang={lang} />
+</BaseLayout>
+
+<style>
+  /* 确保页面至少占满整个视口 */
+  :global(body) {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  main {
+    flex: 1;
+  }
+
+  /* 为内容区域添加平滑过渡 */
+  main > div {
+    transition: all 0.3s ease;
+  }
+
+  /* 响应式内边距优化 */
+  @media (max-width: 640px) {
+    main > div > div {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+  }
+</style>

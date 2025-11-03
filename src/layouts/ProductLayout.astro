@@ -1,0 +1,39 @@
+---
+// src/layouts/ProductLayout.astro
+import type { Language, ProductFrontmatter } from '@/types';
+import BaseLayout from './BaseLayout.astro';
+import StructuredData from '@/components/seo/StructuredData.astro';
+
+export interface Props {
+  product: ProductFrontmatter;
+  lang?: Language;
+}
+
+const { product, lang = 'en' } = Astro.props;
+
+// 准备产品结构化数据
+const productSchemaData = {
+  name: product.title,
+  description: product.description,
+  image: product.featuredImage,
+  brand: 'RAYTRON',
+  sku: product.slug,
+  category: product.category,
+};
+---
+
+<BaseLayout
+  title={product.seo.title}
+  description={product.seo.description}
+  keywords={product.seo.keywords}
+  canonical={product.seo.canonicalUrl}
+  ogImage={product.featuredImage}
+  ogType="product"
+  lang={lang}
+>
+  <!-- Product结构化数据 -->
+  <StructuredData slot="head" type="product" data={productSchemaData} lang={lang} />
+
+  <!-- Main content -->
+  <slot />
+</BaseLayout>

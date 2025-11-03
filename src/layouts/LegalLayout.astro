@@ -1,0 +1,48 @@
+---
+import LegalLayout from '@/layouts/LegalLayout.astro';
+---
+
+<LegalLayout
+  title="Privacy Policy"
+  description="Raytron Privacy Policy"
+  lang="en"
+  lastUpdated="2024-01-15"
+  effectiveDate="2024-01-01"
+  version="1.2"
+>
+  <h2>1. Information Collection</h2>
+  <p>We collect information...</p>
+  
+  <h2>2. Data Usage</h2>
+  <p>Your data is used for...</p>
+</LegalLayout>
+```
+
+---
+
+## 📊 样式特点
+
+### PageLayout
+- 灵活的容器宽度
+- 平滑过渡效果
+- 最小高度保证（min-height: 100vh）
+- 响应式内边距
+
+### LegalLayout
+- 专业文档排版（行高1.8）
+- 标题层级清晰
+- 列表、表格、引用样式优化
+- 打印友好样式
+- 自动生成目录
+- 信息框高亮显示
+
+---
+
+## 📁 文件位置
+```
+src/layouts/
+├── BaseLayout.astro      # 基础布局（已存在）
+├── PageLayout.astro      # ✅ 普通页面布局
+├── ProductLayout.astro   # 产品页布局（已存在）
+├── BlogLayout.astro      # 博客布局（已存在）
+└── LegalLayout.astro     # ✅ 法律文档布局

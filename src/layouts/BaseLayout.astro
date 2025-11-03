@@ -1,0 +1,88 @@
+---
+// src/layouts/BaseLayout.astro
+import type { Language } from '@/types';
+import MetaTags from '@/components/seo/MetaTags.astro';
+import HreflangTags from '@/components/seo/HreflangTags.astro';
+import StructuredData from '@/components/seo/StructuredData.astro';
+import '@/styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  lang?: Language;
+  includeOrganizationSchema?: boolean;
+}
+
+const {
+  title,
+  description,
+  keywords,
+  canonical,
+  ogImage,
+  ogType = 'website',
+  lang = 'en',
+  includeOrganizationSchema = true,
+} = Astro.props;
+
+// 获取当前路径
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang={lang} dir="ltr" class="scroll-smooth">
+  <head>
+    <!-- Meta标签 -->
+    <MetaTags
+      title={title}
+      description={description}
+      keywords={keywords}
+      canonical={canonical}
+      ogImage={ogImage}
+      ogType={ogType}
+      lang={lang}
+    />
+
+    <!-- Hreflang标签 -->
+    <HreflangTags currentPath={currentPath} currentLang={lang} />
+
+    <!-- Organization结构化数据 -->
+    {includeOrganizationSchema && <StructuredData type="organization" lang={lang} />}
+
+    <!-- Slot for additional head content -->
+    <slot name="head" />
+  </head>
+
+  <body class="flex min-h-screen flex-col">
+    <!-- Skip to main content (accessibility) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded bg-primary-600 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+    >
+      Skip to main content
+    </a>
+
+    <!-- Main content wrapper -->
+    <div class="flex min-h-screen flex-col">
+      <!-- Main content -->
+      <main id="main-content" class="flex-1">
+        <slot />
+      </main>
+    </div>
+
+    <!-- Slot for scripts -->
+    <slot name="scripts" />
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${import.meta.env.PUBLIC_GTM_ID}`}
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
+  </body>
+</html>
