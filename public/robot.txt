@@ -1,0 +1,15 @@
+# public/robots.txt
+
+# Allow all bots
+User-agent: *
+Allow: /
+
+# Disallow API endpoints
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://en.raytron.group/sitemap-en.xml
+Sitemap: https://cn.raytron.group/sitemap-cn.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1
